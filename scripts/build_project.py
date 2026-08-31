@@ -1703,6 +1703,7 @@ def create_docs(metrics: dict, findings: list[dict], measures: list[dict], relat
 
 def create_readme(metrics: dict, findings: list[dict], measures: list[dict], relationships: int, pages: int, visuals: int, field_count: int) -> None:
     findings_md = "\n".join(f"{index}. **{item['title']}** — {item['evidence']}" for index, item in enumerate(findings[:6], start=1))
+    findings_md = textwrap.indent(findings_md, "        ")
     write(ROOT / "README.md", f"""
         # Insurance Claims Intelligence
 
@@ -1771,7 +1772,7 @@ def create_readme(metrics: dict, findings: list[dict], measures: list[dict], rel
 
         ## Key synthetic findings
 
-        {findings_md}
+{findings_md}
 
         Read the evidence, implications and cautious action framing in [executive-insights.md](docs/executive-insights.md).
 
@@ -1838,7 +1839,7 @@ def create_readme(metrics: dict, findings: list[dict], measures: list[dict], rel
 
         ## Author
 
-        **Gareth Andrew Mackenzie**  
+        **Gareth Andrew Mackenzie**<br>
         Johannesburg, South Africa
 
         Licensed under the [MIT License](LICENSE).
