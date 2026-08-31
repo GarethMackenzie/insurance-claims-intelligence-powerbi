@@ -36,8 +36,8 @@ SELECT
     selected_claims,
     captured_targets,
     captured_targets * 1.0 / NULLIF(selected_claims, 0) AS review_precision,
-    captured_targets * 1.0 / NULLIF(total_targets, 0) AS fraud_recall,
-    1 - captured_targets * 1.0 / NULLIF(selected_claims, 0) AS false_positive_rate,
+    captured_targets * 1.0 / NULLIF(total_targets, 0) AS synthetic_target_recall,
+    1 - captured_targets * 1.0 / NULLIF(selected_claims, 0) AS non_target_review_rate,
     (captured_targets * 1.0 / NULLIF(selected_claims, 0)) /
         NULLIF(total_targets * 1.0 / total_claims, 0) AS lift_vs_random
 FROM capacity_results

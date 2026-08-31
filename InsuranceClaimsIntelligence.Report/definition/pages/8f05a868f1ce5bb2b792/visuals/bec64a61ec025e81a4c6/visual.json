@@ -23,11 +23,11 @@
                       "Entity": "Measures"
                     }
                   },
-                  "Property": "Fraud Recall"
+                  "Property": "Synthetic Target Recall"
                 }
               },
-              "queryRef": "Measures.Fraud Recall",
-              "nativeQueryRef": "Fraud Recall"
+              "queryRef": "Measures.Synthetic Target Recall",
+              "nativeQueryRef": "Synthetic Target Recall"
             }
           ]
         }
@@ -47,7 +47,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Fraud Recall'"
+                  "Value": "'Synthetic Target Recall'"
                 }
               }
             }

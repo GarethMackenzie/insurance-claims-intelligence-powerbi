@@ -1,4 +1,4 @@
-Investigation_Capacity_Pct,Claims_Selected,Potential_Fraud_Captured,Review_Precision,Fraud_Recall,False_Positive_Rate,Lift_vs_Random
+Investigation_Capacity_Pct,Claims_Selected,Synthetic_Targets_Captured,Review_Precision,Synthetic_Target_Recall,Non_Target_Review_Rate,Lift_vs_Random
 5,3750,644,0.17173333333333332,0.09634949132256133,0.8282666666666667,1.9269898264512266
 10,7500,1132,0.15093333333333334,0.16935966487133453,0.8490666666666666,1.6935966487133451
 15,11250,1566,0.1392,0.23429084380610413,0.8608,1.5619389587073607

@@ -14,22 +14,29 @@ Run with `python scripts/qa_project.py` using Python 3.12.13.
 | 8 | Financial reconciliation | **PASS** | Maximum /incurred - paid - reserve/ = 0.0000. |
 | 9 | Lifecycle dates | **PASS** | Report dates follow loss dates and no clean settlement date is after 2026-08-31. |
 | 10 | Dimension key integrity | **PASS** | No orphan surrogate keys across nine categorical dimensions. |
-| 11 | JSON syntax | **PASS** | Parsed 189 JSON files with UTF-8 decoding. |
-| 12 | Microsoft schema declarations | **PASS** | All PBIP/PBIR semantic-model JSON artifacts declare current Microsoft Fabric schema URLs. |
-| 13 | Current report schema and theme package | **PASS** | Report uses Microsoft report schema 3.2.0 with a matching RegisteredResources custom-theme package. |
-| 14 | Enhanced PBIR structure | **PASS** | 8 ordered pages and 168 structurally complete visual containers. |
-| 15 | TMDL static validation | **PASS** | Measures=79; relationships=13; multi-line DAX fences balanced. |
-| 16 | Relationship direction | **PASS** | No bidirectional filter declaration; two role-playing date relationships are explicitly inactive. |
-| 17 | DAX safety patterns | **PASS** | Explicit measure table uses DIVIDE and documented formats; Desktop parsing remains a final host check. |
-| 18 | SQL analytical coverage | **PASS** | Six SQL modules include CTEs, CASE, views and window functions. |
-| 19 | Python syntax | **PASS** | All project Python scripts compile successfully. |
-| 20 | Internal links | **PASS** | Zero broken internal Markdown links. |
-| 21 | Privacy and neutral branding | **PASS** | No named employer branding appears in project text; all claim, policy, handler and supplier data is synthetic. |
-| 22 | Preview asset integrity | **PASS** | Eight 1600×900 PNG assets are explicitly labelled DESIGN MOCKUP; no screenshot claim is made. |
-| 23 | Repository credibility | **PASS** | No lorem ipsum, coming-soon copy or placeholder-junk files. |
+| 11 | Portfolio metric reconciliation | **PASS** | Ten prominent metrics reconcile from clean data through portfolio_metrics.json to the README snapshot. |
+| 12 | JSON syntax | **PASS** | Parsed 189 JSON files with UTF-8 decoding. |
+| 13 | Microsoft schema declarations | **PASS** | All PBIP/PBIR semantic-model JSON artifacts declare current Microsoft Fabric schema URLs. |
+| 14 | PBIP artifact references | **PASS** | PBIP resolves to the report artifact and PBIR resolves to the sibling semantic model by path. |
+| 15 | Current report schema and theme package | **PASS** | Report uses Microsoft report schema 3.2.0 with a matching RegisteredResources custom-theme package. |
+| 16 | Enhanced PBIR structure | **PASS** | 8 ordered pages and 168 structurally complete visual containers. |
+| 17 | TMDL static validation | **PASS** | Measures=79; relationships=13; multi-line DAX fences balanced. |
+| 18 | Marked date-table semantics | **PASS** | DimDate is categorized as Time; the related Date column is the key and the hidden integer surrogate is not the date key. |
+| 19 | Semantic display ordering | **PASS** | Month, status, severity and risk labels use governed numeric sort columns. |
+| 20 | Relationship direction | **PASS** | No bidirectional filter declaration; exactly two role-playing date relationships are inactive. |
+| 21 | DAX safety and terminology | **PASS** | Explicit measures use DIVIDE, governed open-status logic and synthetic/human-review terminology; Desktop parsing remains a final host check. |
+| 22 | SQL analytical coverage | **PASS** | Six SQL modules include CTEs, CASE, views and window functions. |
+| 23 | Python syntax | **PASS** | All project Python scripts compile successfully. |
+| 24 | CI workflow contract | **PASS** | Push, pull-request and manual triggers run the documented Python install → generate → validate → clean → build → QA sequence with read-only contents permission. |
+| 25 | Internal links | **PASS** | Zero broken internal Markdown links. |
+| 26 | Generated Markdown structure | **PASS** | Generated documentation tables begin at the left margin and render as Markdown rather than code blocks. |
+| 27 | External link hygiene | **PASS** | All 6 external Markdown links use HTTPS and approved first-party documentation or repository hosts. |
+| 28 | Privacy and neutral branding | **PASS** | No named employer, email address, local user path or credential pattern appears in project artifacts; all claim, policy, handler and supplier data is synthetic. |
+| 29 | Preview asset integrity | **PASS** | Eight 1600×900 PNG assets are explicitly labelled DESIGN MOCKUP; no screenshot claim is made. |
+| 30 | Repository credibility | **PASS** | No lorem ipsum, coming-soon copy or placeholder-junk files. |
 
 ## Outcome
 
-**23 of 23 checks passed.**
+**30 of 30 checks passed.**
 
 Microsoft schema URLs are declared on every relevant PBIP/PBIR JSON artifact and structural validation is automated. Full JSON Schema evaluation and runtime TMDL/DAX/visual rendering still require a current Power BI Desktop host; that host was not installed in the build environment. No PBIX or screenshot was fabricated.

@@ -8,7 +8,7 @@
 4. Open `InsuranceClaimsIntelligence.pbip`.
 5. If the repository moved, edit the `pProjectRoot` Power Query parameter to the new absolute repository path.
 6. Import `theme/insurance-intelligence-theme.json` if Desktop does not automatically retain an external theme reference.
-7. Mark `DimDate[Date]` as the date table and refresh.
+7. Confirm that `DimDate[Date]` is recognized as the model's marked date column and refresh.
 8. Inspect relationships, roles and the 79-measure `Measures` table before publishing.
 
 ## Desktop-only finishing checks

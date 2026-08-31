@@ -6,7 +6,7 @@ The fixed NumPy seed is `20260831`. Loss dates span 2024-01-01 through 2026-08-3
 
 Operational fields are correlated by construction. Complexity rises with amount and selected claim types. Missing documentation adds assessment and decision delay. Two simulated backlog windows add cycle time. Large or complex claims generally settle more slowly and carry larger simplified case reserves. Complaints and reopening are more likely when SLA or complexity signals are adverse.
 
-The risk score combines reporting delay, prior claims, theft/fire indicators, large-loss status, channel, policy tenure and small regional effects, plus noise. `Synthetic_Fraud_Target_Flag` is a seeded demonstration outcome used to calculate precision, recall and lift. Neither field represents a real fraud model or confirms fraud.
+The risk score combines reporting delay, prior claims, theft/fire indicators, large-loss status, channel, policy tenure and small regional effects, plus noise. `Synthetic_Fraud_Target_Flag` is a clearly named seeded demonstration outcome used to calculate review precision, synthetic-target recall and lift. Neither field represents a real fraud model or confirms fraud.
 
 ## Quality challenge
 

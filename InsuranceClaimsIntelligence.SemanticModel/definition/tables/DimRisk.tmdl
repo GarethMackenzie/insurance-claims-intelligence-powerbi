@@ -7,6 +7,7 @@ table DimRisk
 		sourceColumn: Risk_Key
 	column Risk_Band
 		dataType: string
+		sortByColumn: Risk_Order
 		sourceColumn: Risk_Band
 	column Risk_Order
 		dataType: int64

@@ -2,30 +2,27 @@
 
 [![Project QA](https://github.com/GarethMackenzie/insurance-claims-intelligence-powerbi/actions/workflows/ci.yml/badge.svg)](https://github.com/GarethMackenzie/insurance-claims-intelligence-powerbi/actions/workflows/ci.yml)
 
-**Executive Claims Performance, Fraud Risk & Operational Analytics Command Center**
-
-An end-to-end Power BI insurance analytics portfolio project combining dimensional modelling, Power Query, DAX, operational analytics, financial exposure analysis, risk-based review prioritization and executive reporting.
+## Executive Claims Performance, Risk & Operational Analytics
 
 > **Portfolio demonstration using synthetic data only.** No customer, policyholder, claim, or employer-confidential information is used. All findings are synthetic portfolio findings, not workplace achievements.
 
-## Business problem
+**Source/runtime status:** Structurally validated from PBIP/PBIR/TMDL source. Final visual rendering and interaction verification requires a current Power BI Desktop host.
+
+## Business Problem
 
 Claims leaders need a governed view of cost, severity, lifecycle delay, SLA, backlog, reserve exposure, regional concentration and limited fraud-review capacity. This solution is designed around management questions: what changed, where pressure is building, why it matters, and what to investigate next.
 
-## What I built
+## Solution Overview
 
-- A deterministic Python generator for **75,000 synthetic claims** from 2024-01-01 to 2026-08-31.
-- A controlled raw-data challenge with **2,150 quality issue events** and a complete correction audit.
-- A clean star schema with `FactClaims`, ten conformed dimensions and 13 relationships.
-- A source-control-friendly PBIP project using enhanced PBIR report definitions and TMDL semantic-model files.
-- A dedicated DAX measure layer with **79 explicit measures**, time intelligence, dynamic exceptions, balanced handler analytics and a review-capacity simulator.
-- Eight executive report pages, 168 visual containers, ANSI-oriented analytical SQL, reusable M and detailed documentation.
+| Capability | Evidence in this repository |
+|---|---|
+| Governed data pipeline | Deterministic Python generation, independent validation, correction audit and clean star-schema build |
+| Power BI engineering | Editable PBIP, enhanced PBIR and TMDL source with explicit relationships and a dedicated measure table |
+| Claims analytics | Executive, operations, financial, regional, handler, root-cause, risk-review and data-quality views |
+| Analytical depth | 79 DAX measures, reusable Power Query M, six SQL modules and a capacity-constrained review simulator |
+| Quality controls | Reproducibility, reconciliation, semantic-model, privacy, asset, link and CI contract checks |
 
-## Why it matters
-
-The project demonstrates more than chart construction: reproducibility, data-quality governance, dimensional design, insurance operations, financial exposure, responsible risk terminology, human-in-the-loop prioritization and executive analytical storytelling.
-
-## Portfolio snapshot
+## Executive Portfolio Snapshot
 
 | Metric | Synthetic result |
 |---|---:|
@@ -39,33 +36,7 @@ The project demonstrates more than chart construction: reproducibility, data-qua
 | High/Critical risk share | 12.4% |
 | Data quality detection | 2,150 / 2,150 (100%) |
 
-## Technology
-
-`Power BI Project (PBIP)` · `Enhanced PBIR` · `TMDL` · `DAX` · `Power Query M` · `Python` · `pandas` · `NumPy` · `SQL` · `Git/GitHub`
-
-## Architecture
-
-![Insurance Claims Intelligence solution architecture](assets/architecture.svg)
-
-See [architecture](docs/architecture.md), [data model](docs/data-model.md), [methodology](docs/methodology.md), and the complete [data dictionary](docs/data-dictionary.md) (110 fields).
-
-## Dashboard design mockups
-
-These images are **design mockups, not Power BI screenshots**. The editable visual definitions are in [`InsuranceClaimsIntelligence.Report`](InsuranceClaimsIntelligence.Report/definition/pages/).
-
-| Executive overview | Claims operations |
-|---|---|
-| ![Executive overview design mockup](assets/executive-overview.png) | ![Claims operations design mockup](assets/claims-operations.png) |
-| Fraud & risk | Financial performance |
-| ![Fraud and risk design mockup](assets/fraud-risk.png) | ![Financial performance design mockup](assets/financial-performance.png) |
-| Regional intelligence | Handler performance |
-| ![Regional intelligence design mockup](assets/regional-intelligence.png) | ![Handler performance design mockup](assets/handler-performance.png) |
-| Root-cause analysis | Data quality |
-| ![Root cause design mockup](assets/root-cause-analysis.png) | ![Data quality design mockup](assets/data-quality.png) |
-
-Page scope and feature status are documented in [report-pages.md](docs/report-pages.md).
-
-## Key synthetic findings
+### Key synthetic findings
 
 1. **Fire leads incurred exposure** — It contributes R1,653,712,314, or 18.3%, of total incurred.
 2. **Free State has the strongest comparable severity increase** — Synthetic average severity is +15.9% versus January–August 2025.
@@ -74,25 +45,63 @@ Page scope and feature status are documented in [report-pages.md](docs/report-pa
 5. **High-risk concentration is greatest in KwaZulu-Natal** — The concentration is 15.8% of claims in the province.
 6. **Agricultural claims have the longer median settlement cycle** — Agricultural records 67 days versus 32 days for the other product.
 
-Read the evidence, implications and cautious action framing in [executive-insights.md](docs/executive-insights.md).
+Evidence, implications and cautious action framing are in [executive-insights.md](docs/executive-insights.md).
 
-## Data model
+## Architecture
+
+![Insurance Claims Intelligence solution architecture](assets/architecture.svg)
+
+`synthetic raw data → validation audit → governed clean star schema → Power Query → TMDL semantic model → enhanced PBIR report source → automated QA`
+
+See [architecture](docs/architecture.md) and [methodology](docs/methodology.md).
+
+## Dashboard / Report Pages
+
+These images are **design mockups, not Power BI screenshots**. The editable visual definitions are in [`InsuranceClaimsIntelligence.Report`](InsuranceClaimsIntelligence.Report/definition/pages/).
+
+| Executive overview | Claims operations |
+|---|---|
+| ![Executive overview design mockup](assets/executive-overview.png) | ![Claims operations design mockup](assets/claims-operations.png) |
+| Risk & review | Financial performance |
+| ![Risk and review design mockup](assets/fraud-risk.png) | ![Financial performance design mockup](assets/financial-performance.png) |
+| Regional intelligence | Handler performance |
+| ![Regional intelligence design mockup](assets/regional-intelligence.png) | ![Handler performance design mockup](assets/handler-performance.png) |
+| Root-cause analysis | Data quality |
+| ![Root cause design mockup](assets/root-cause-analysis.png) | ![Data quality design mockup](assets/data-quality.png) |
+
+Page scope and implementation status are documented in [report-pages.md](docs/report-pages.md).
+
+## Data Model
 
 ![Insurance claims star schema](assets/data-model.svg)
 
-Dimensions filter `FactClaims` one-to-many in a single direction. Loss date is the active date path; report and settlement date are inactive role-playing relationships. Disconnected capacity and analysis-metric tables support what-if and parameterized analysis.
+`FactClaims` is one row per claim. Ten conformed dimensions filter it in a single direction across 13 relationships. `DimDate[Date]` is the marked date column; loss date is active, while report and settlement dates are inactive role-playing paths. The complete [data dictionary](docs/data-dictionary.md) documents 110 physical fields.
 
-## DAX, Power Query and SQL
+## DAX & Semantic Layer
 
-- [DAX measure catalogue](dax/measures.md) documents every explicit measure and format.
-- [Power Query design](docs/power-query.md) explains staging, reusable functions, type enforcement, duplicate detection and validation.
-- [`sql/`](sql/) contains dimensional DDL, data-quality checks, performance views, risk-capacity logic and financial analysis using CTEs and window functions.
+The model discourages implicit measures and provides 79 documented measures for financial exposure, severity, service, backlog, time intelligence, review capacity and balanced workload analysis. Ratios use `DIVIDE`; open-claim logic uses the governed status flag; month, status, severity and risk labels have explicit sort columns. See the [DAX catalogue](dax/measures.md).
 
-## Data quality
+## Power Query & Data Quality
 
-The raw layer contains 75,150 rows and 2,150 controlled issue events across missing values, negative amounts, category variants, invalid dates, whitespace, invalid claim types and duplicates. The validator detected all events, and the clean fact reconciles to 75,000 unique claims. See [data-quality.md](docs/data-quality.md).
+Reusable M centralizes UTF-8 CSV loading and schema enforcement. The raw layer contains 75,150 rows and 2,150 controlled issue events; validation detects every event before the clean build applies explicit corrections and reconciles to 75,000 unique claims. See [Power Query design](docs/power-query.md) and [data-quality evidence](docs/data-quality.md).
 
-## How to run
+## SQL Analytics
+
+[`sql/`](sql/) contains six ANSI-oriented modules covering dimensional DDL, validation controls, lifecycle performance, review-capacity prioritization and financial exposure. The examples use CTEs, guarded division, CASE expressions and window functions.
+
+## Reproducibility
+
+The fixed seed `20260831`, project-relative inputs and deterministic scripts reproduce the dataset and source artifacts. Run the pipeline in this order: generate → validate → clean build → project build → QA.
+
+## Quality Assurance
+
+`python scripts/qa_project.py` reruns the full build and tests data grain, controlled defects, financial reconciliation, date semantics, PBIP/PBIR references, TMDL structure, DAX conventions, CI wiring, SQL/Python syntax, internal links, privacy and mockup integrity. The latest evidence is in [qa-report.md](docs/qa-report.md).
+
+## Responsible Analytics & Limitations
+
+Risk scores prioritize human review; they never determine fraud or automate a claim decision. Synthetic targets exist only to demonstrate queue metrics. Reserves are simplified case reserves, RLS is conceptual, and handler views support workload management rather than employee evaluation. See [limitations](docs/limitations.md) and [RLS notes](docs/row-level-security.md).
+
+## How to Run
 
 From the repository root:
 
@@ -107,9 +116,9 @@ python scripts/build_project.py
 python scripts/qa_project.py
 ```
 
-Then open [`InsuranceClaimsIntelligence.pbip`](InsuranceClaimsIntelligence.pbip) in a current Power BI Desktop release. If the clone location changed, update the `pProjectRoot` parameter before refresh. Full instructions are in [power-bi-setup.md](docs/power-bi-setup.md).
+Open [`InsuranceClaimsIntelligence.pbip`](InsuranceClaimsIntelligence.pbip) in a current Power BI Desktop release, set `pProjectRoot` to the clone path, refresh, and complete the Desktop-only rendering and interaction checks in [power-bi-setup.md](docs/power-bi-setup.md).
 
-## Repository map
+## Repository Structure
 
 ```text
 InsuranceClaimsIntelligence.pbip
@@ -125,21 +134,11 @@ assets/                                    diagrams and labelled design mockups
 theme/                                     Power BI theme JSON
 ```
 
-## Limitations and responsible use
-
-This is synthetic data with a simplified lifecycle and reserve methodology. It is not production-validated, actuarial, causal or representative of real customer behaviour. The risk score is not a fraud determination. RLS is conceptual. Handler analytics are for workload-management demonstration, not employee performance management. Read all [limitations](docs/limitations.md) and [RLS notes](docs/row-level-security.md).
-
-## Privacy
-
-The project contains no real customer, policyholder, claim, employer, user or credential data. Handler and supplier labels are neutral synthetic identifiers. No employer branding appears in the report.
-
-## Quality assurance
-
-The build validates reproducibility, data invariants, issue detection, JSON parsing and schema declarations, TMDL structure, relationship direction, DAX inventory, SQL content, internal links, privacy terms and preview labels. Results are in [qa-report.md](docs/qa-report.md).
-
 ## Author
 
 **Gareth Andrew Mackenzie**<br>
 Johannesburg, South Africa
+
+`Power BI` · `DAX` · `Power Query` · `TMDL` · `PBIP/PBIR` · `Python` · `SQL` · `Insurance analytics`
 
 Licensed under the [MIT License](LICENSE).

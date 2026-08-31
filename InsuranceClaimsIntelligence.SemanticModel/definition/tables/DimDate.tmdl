@@ -1,11 +1,12 @@
 table DimDate
+	dataCategory: Time
 	column Date
 		dataType: dateTime
+		isKey
 		formatString: yyyy-MM-dd
 		sourceColumn: Date
 	column Date_Key
 		dataType: int64
-		isKey
 		isHidden
 		summarizeBy: none
 		sourceColumn: Date_Key
@@ -22,12 +23,15 @@ table DimDate
 		sourceColumn: Month_Number
 	column Month
 		dataType: string
+		sortByColumn: Month_Number
 		sourceColumn: Month
 	column Month_Short
 		dataType: string
+		sortByColumn: Month_Number
 		sourceColumn: Month_Short
 	column Year_Month
 		dataType: string
+		sortByColumn: Year_Month_Sort
 		sourceColumn: Year_Month
 	column Year_Month_Sort
 		dataType: int64

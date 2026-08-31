@@ -51,8 +51,8 @@
   {
     "title": "Risk ranking creates review-capacity lift",
     "observation": "The top 10% of synthetic risk scores captures more target events than random review would be expected to capture.",
-    "evidence": "At 10% capacity, simulated precision is 15.1%, recall is 16.9%, and lift is 1.69\u00d7.",
+    "evidence": "At 10% capacity, simulated review precision is 15.1%, synthetic-target recall is 16.9%, and lift is 1.69\u00d7.",
     "business_implication": "Prioritization can help allocate scarce review capacity, subject to governance and human decision-making.",
-    "possible_action": "Validate thresholds, monitor false positives and retain analyst review before any operational action."
+    "possible_action": "Validate thresholds, monitor non-target reviews and retain analyst review before any operational action."
   }
 ]

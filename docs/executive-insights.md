@@ -76,8 +76,8 @@ All findings below are calculated from the generated dataset. They are demonstra
 
 **Observation:** The top 10% of synthetic risk scores captures more target events than random review would be expected to capture.
 
-**Evidence:** At 10% capacity, simulated precision is 15.1%, recall is 16.9%, and lift is 1.69×.
+**Evidence:** At 10% capacity, simulated review precision is 15.1%, synthetic-target recall is 16.9%, and lift is 1.69×.
 
 **Business implication:** Prioritization can help allocate scarce review capacity, subject to governance and human decision-making.
 
-**Possible action:** Validate thresholds, monitor false positives and retain analyst review before any operational action.
+**Possible action:** Validate thresholds, monitor non-target reviews and retain analyst review before any operational action.

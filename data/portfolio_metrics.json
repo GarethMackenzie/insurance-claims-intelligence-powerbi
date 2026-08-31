@@ -27,37 +27,37 @@
     {
       "Investigation_Capacity_Pct": 5,
       "Claims_Selected": 3750,
-      "Potential_Fraud_Captured": 644,
+      "Synthetic_Targets_Captured": 644,
       "Review_Precision": 0.17173333333333332,
-      "Fraud_Recall": 0.09634949132256133,
-      "False_Positive_Rate": 0.8282666666666667,
+      "Synthetic_Target_Recall": 0.09634949132256133,
+      "Non_Target_Review_Rate": 0.8282666666666667,
       "Lift_vs_Random": 1.9269898264512266
     },
     {
       "Investigation_Capacity_Pct": 10,
       "Claims_Selected": 7500,
-      "Potential_Fraud_Captured": 1132,
+      "Synthetic_Targets_Captured": 1132,
       "Review_Precision": 0.15093333333333334,
-      "Fraud_Recall": 0.16935966487133453,
-      "False_Positive_Rate": 0.8490666666666666,
+      "Synthetic_Target_Recall": 0.16935966487133453,
+      "Non_Target_Review_Rate": 0.8490666666666666,
       "Lift_vs_Random": 1.6935966487133451
     },
     {
       "Investigation_Capacity_Pct": 15,
       "Claims_Selected": 11250,
-      "Potential_Fraud_Captured": 1566,
+      "Synthetic_Targets_Captured": 1566,
       "Review_Precision": 0.1392,
-      "Fraud_Recall": 0.23429084380610413,
-      "False_Positive_Rate": 0.8608,
+      "Synthetic_Target_Recall": 0.23429084380610413,
+      "Non_Target_Review_Rate": 0.8608,
       "Lift_vs_Random": 1.5619389587073607
     },
     {
       "Investigation_Capacity_Pct": 20,
       "Claims_Selected": 15000,
-      "Potential_Fraud_Captured": 2016,
+      "Synthetic_Targets_Captured": 2016,
       "Review_Precision": 0.1344,
-      "Fraud_Recall": 0.3016157989228007,
-      "False_Positive_Rate": 0.8656,
+      "Synthetic_Target_Recall": 0.3016157989228007,
+      "Non_Target_Review_Rate": 0.8656,
       "Lift_vs_Random": 1.5080789946140034
     }
   ]

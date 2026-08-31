@@ -11,7 +11,7 @@ The dedicated `Measures` table contains **79 explicit measures**. Implicit measu
 Open claims aged at least 30 days.
 
 ```DAX
-30+ Day Open Claims = CALCULATE ( [Total Claims], FactClaims[Status_Key] <= 6, FactClaims[Open_Claim_Age_Days] >= 30 )
+30+ Day Open Claims = CALCULATE ( [Total Claims], KEEPFILTERS ( DimStatus[Open_Status_Flag] = 1 ), KEEPFILTERS ( FactClaims[Open_Claim_Age_Days] >= 30 ) )
 ```
 
 Format: `#,0`
@@ -21,7 +21,7 @@ Format: `#,0`
 Open claims aged at least 60 days.
 
 ```DAX
-60+ Day Open Claims = CALCULATE ( [Total Claims], FactClaims[Status_Key] <= 6, FactClaims[Open_Claim_Age_Days] >= 60 )
+60+ Day Open Claims = CALCULATE ( [Total Claims], KEEPFILTERS ( DimStatus[Open_Status_Flag] = 1 ), KEEPFILTERS ( FactClaims[Open_Claim_Age_Days] >= 60 ) )
 ```
 
 Format: `#,0`
@@ -376,10 +376,10 @@ Format: `0.0`
 
 ### Average Open Age
 
-Average age of open claims.
+Average age of claims in governed open lifecycle statuses.
 
 ```DAX
-Average Open Age = CALCULATE ( AVERAGE ( FactClaims[Open_Claim_Age_Days] ), FactClaims[Status_Key] <= 6 )
+Average Open Age = CALCULATE ( AVERAGE ( FactClaims[Open_Claim_Age_Days] ), KEEPFILTERS ( DimStatus[Open_Status_Flag] = 1 ) )
 ```
 
 Format: `0.0`
@@ -429,12 +429,12 @@ RETURN COUNTROWS ( FILTER ( VALUES ( FactClaims[Claim_ID] ), CALCULATE ( MAX ( F
 
 Format: `#,0`
 
-### Potential Fraud Captured
+### Synthetic Targets Captured
 
-Synthetic target events in the selected review queue.
+Synthetic demonstration target events in the selected review queue.
 
 ```DAX
-Potential Fraud Captured = VAR Capacity = [Investigation Capacity %]
+Synthetic Targets Captured = VAR Capacity = [Investigation Capacity %]
 RETURN SUMX ( FILTER ( VALUES ( FactClaims[Claim_ID] ), CALCULATE ( MAX ( FactClaims[Risk_Rank_Percentile] ) ) > 1 - Capacity ), CALCULATE ( MAX ( FactClaims[Synthetic_Fraud_Target_Flag] ) ) )
 ```
 
@@ -455,27 +455,27 @@ Format: `#,0`
 Synthetic target events divided by selected claims.
 
 ```DAX
-Review Precision = DIVIDE ( [Potential Fraud Captured], [Claims Selected for Review] )
+Review Precision = DIVIDE ( [Synthetic Targets Captured], [Claims Selected for Review] )
 ```
 
 Format: `0.0%`
 
-### Fraud Recall
+### Synthetic Target Recall
 
-Share of synthetic target events captured by the queue.
+Share of synthetic demonstration target events captured by the queue.
 
 ```DAX
-Fraud Recall = DIVIDE ( [Potential Fraud Captured], [Synthetic Target Events] )
+Synthetic Target Recall = DIVIDE ( [Synthetic Targets Captured], [Synthetic Target Events] )
 ```
 
 Format: `0.0%`
 
-### False Positive Rate
+### Non-Target Review Rate
 
-Selected claims without the synthetic target flag; not real fraud outcomes.
+Selected claims without the synthetic target flag; this is not a real false-positive rate.
 
 ```DAX
-False Positive Rate = 1 - [Review Precision]
+Non-Target Review Rate = 1 - [Review Precision]
 ```
 
 Format: `0.0%`
@@ -768,10 +768,10 @@ Format: `#,0`
 
 ### Open Claims
 
-Claims not in a terminal status.
+Claims in governed open lifecycle statuses.
 
 ```DAX
-Open Claims = CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Status_Key] <= 6 ) )
+Open Claims = CALCULATE ( [Total Claims], KEEPFILTERS ( DimStatus[Open_Status_Flag] = 1 ) )
 ```
 
 Format: `#,0`

@@ -99,6 +99,37 @@ def check_data() -> None:
             orphan_notes.append(f"{key}:{orphan_count}")
     record("Dimension key integrity", not orphan_notes, "No orphan surrogate keys across nine categorical dimensions." if not orphan_notes else ", ".join(orphan_notes))
 
+    metrics = json.loads((DATA / "portfolio_metrics.json").read_text(encoding="utf-8"))
+    calculated = {
+        "claims": len(fact),
+        "open_claims": int((fact["Status_Key"] <= 6).sum()),
+        "total_incurred": float(fact["Total_Incurred"].sum()),
+        "outstanding_reserve": float(fact["Reserve_Amount"].sum()),
+        "average_severity": float(fact["Claim_Amount"].mean()),
+        "median_settlement_days": float(fact["Settlement_Days"].median()),
+        "sla_compliance": float(fact["SLA_Met_Flag"].mean()),
+        "high_risk_claims": int((fact["Risk_Key"] >= 3).sum()),
+        "raw_rows": len(raw),
+        "detected_issues": len(issues),
+    }
+    mismatches = []
+    for name, actual in calculated.items():
+        expected = metrics[name]
+        tolerance = max(0.02, abs(float(expected)) * 1e-9)
+        if abs(float(actual) - float(expected)) > tolerance:
+            mismatches.append(f"{name}: expected {expected}, calculated {actual}")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    readme_values = [
+        f"| Claims | {metrics['claims']:,} |",
+        f"| Open claims | {metrics['open_claims']:,} |",
+        f"| Total incurred | R{metrics['total_incurred']/1_000_000_000:.2f}bn |",
+        f"| Outstanding reserve | R{metrics['outstanding_reserve']/1_000_000_000:.2f}bn |",
+        f"| SLA compliance | {metrics['sla_compliance']:.1%} |",
+    ]
+    if not all(value in readme for value in readme_values):
+        mismatches.append("README portfolio snapshot does not match generated metrics")
+    record("Portfolio metric reconciliation", not mismatches, "Ten prominent metrics reconcile from clean data through portfolio_metrics.json to the README snapshot." if not mismatches else "; ".join(mismatches))
+
 
 def check_powerbi_sources() -> None:
     json_files = list(ROOT.rglob("*.json"))
@@ -117,6 +148,15 @@ def check_powerbi_sources() -> None:
     record("JSON syntax", not parse_errors, f"Parsed {len(json_files)} JSON files with UTF-8 decoding." if not parse_errors else "; ".join(parse_errors[:5]))
     record("Microsoft schema declarations", not schema_errors, "All PBIP/PBIR semantic-model JSON artifacts declare current Microsoft Fabric schema URLs." if not schema_errors else f"Invalid declarations: {schema_errors[:5]}")
 
+    pbip = json.loads((ROOT / "InsuranceClaimsIntelligence.pbip").read_text(encoding="utf-8"))
+    report_relative = pbip.get("artifacts", [{}])[0].get("report", {}).get("path", "")
+    report_root = (ROOT / report_relative).resolve()
+    pbir = json.loads((report_root / "definition.pbir").read_text(encoding="utf-8")) if report_root.exists() else {}
+    model_relative = pbir.get("datasetReference", {}).get("byPath", {}).get("path", "")
+    model_root = (report_root / model_relative).resolve() if model_relative else ROOT / "__missing_model__"
+    reference_ok = report_root == (ROOT / "InsuranceClaimsIntelligence.Report").resolve() and report_root.exists() and model_root == (ROOT / "InsuranceClaimsIntelligence.SemanticModel").resolve() and model_root.exists()
+    record("PBIP artifact references", reference_ok, "PBIP resolves to the report artifact and PBIR resolves to the sibling semantic model by path." if reference_ok else f"Report={report_relative!r}; model={model_relative!r}.")
+
     report_json = json.loads((ROOT / "InsuranceClaimsIntelligence.Report" / "definition" / "report.json").read_text(encoding="utf-8"))
     current_report_schema = report_json.get("$schema", "").endswith("/report/3.2.0/schema.json")
     theme_resolved = report_json.get("themeCollection", {}).get("customTheme", {}).get("name") == "InsuranceClaimsIntelligenceTheme" and (ROOT / "InsuranceClaimsIntelligence.Report" / "StaticResources" / "RegisteredResources" / "insurance-intelligence-theme.json").exists()
@@ -133,12 +173,41 @@ def check_powerbi_sources() -> None:
 
     measures_text = (ROOT / "InsuranceClaimsIntelligence.SemanticModel" / "definition" / "tables" / "Measures.tmdl").read_text(encoding="utf-8")
     relationships_text = (ROOT / "InsuranceClaimsIntelligence.SemanticModel" / "definition" / "relationships.tmdl").read_text(encoding="utf-8")
+    tables_root = ROOT / "InsuranceClaimsIntelligence.SemanticModel" / "definition" / "tables"
+    dim_date = (tables_root / "DimDate.tmdl").read_text(encoding="utf-8")
+    dim_status = (tables_root / "DimStatus.tmdl").read_text(encoding="utf-8")
+    dim_severity = (tables_root / "DimSeverity.tmdl").read_text(encoding="utf-8")
+    dim_risk = (tables_root / "DimRisk.tmdl").read_text(encoding="utf-8")
     measure_count = len(re.findall(r"^\s*measure\s", measures_text, flags=re.MULTILINE))
     relationship_count = len(re.findall(r"^relationship\s", relationships_text, flags=re.MULTILINE))
     balanced_fences = measures_text.count("```") % 2 == 0
     record("TMDL static validation", measure_count == 79 and relationship_count == 13 and balanced_fences, f"Measures={measure_count}; relationships={relationship_count}; multi-line DAX fences balanced.")
-    record("Relationship direction", "bothDirections" not in relationships_text, "No bidirectional filter declaration; two role-playing date relationships are explicitly inactive.")
-    record("DAX safety patterns", "DIVIDE" in measures_text and "Measures" in measures_text, "Explicit measure table uses DIVIDE and documented formats; Desktop parsing remains a final host check.")
+    date_semantics = (
+        "table DimDate\n\tdataCategory: Time" in dim_date
+        and "\tcolumn Date\n\t\tdataType: dateTime\n\t\tisKey" in dim_date
+        and "\tcolumn Date_Key\n\t\tdataType: int64\n\t\tisKey" not in dim_date
+    )
+    record("Marked date-table semantics", date_semantics, "DimDate is categorized as Time; the related Date column is the key and the hidden integer surrogate is not the date key." if date_semantics else "DimDate table/category/key declarations are incomplete.")
+    sort_rules = [
+        (dim_date, "\tcolumn Month\n\t\tdataType: string\n\t\tsortByColumn: Month_Number"),
+        (dim_date, "\tcolumn Month_Short\n\t\tdataType: string\n\t\tsortByColumn: Month_Number"),
+        (dim_date, "\tcolumn Year_Month\n\t\tdataType: string\n\t\tsortByColumn: Year_Month_Sort"),
+        (dim_status, "\tcolumn Claim_Status\n\t\tdataType: string\n\t\tsortByColumn: Status_Order"),
+        (dim_severity, "\tcolumn Severity_Band\n\t\tdataType: string\n\t\tsortByColumn: Severity_Order"),
+        (dim_risk, "\tcolumn Risk_Band\n\t\tdataType: string\n\t\tsortByColumn: Risk_Order"),
+    ]
+    record("Semantic display ordering", all(rule in source for source, rule in sort_rules), "Month, status, severity and risk labels use governed numeric sort columns.")
+    relationship_ok = "bothDirections" not in relationships_text and relationships_text.count("\tisActive: false") == 2
+    record("Relationship direction", relationship_ok, "No bidirectional filter declaration; exactly two role-playing date relationships are inactive.")
+    dax_ok = (
+        "DIVIDE" in measures_text
+        and "DimStatus[Open_Status_Flag] = 1" in measures_text
+        and "FactClaims[Status_Key] <= 6" not in measures_text
+        and "Potential Fraud Captured" not in measures_text
+        and "Fraud Recall" not in measures_text
+        and "False Positive Rate" not in measures_text
+    )
+    record("DAX safety and terminology", dax_ok, "Explicit measures use DIVIDE, governed open-status logic and synthetic/human-review terminology; Desktop parsing remains a final host check.")
 
 
 def check_sql_and_python() -> None:
@@ -149,6 +218,30 @@ def check_sql_and_python() -> None:
     record("SQL analytical coverage", len(sql_files) == 6 and not missing, f"Six SQL modules include CTEs, CASE, views and window functions." if not missing else f"Missing patterns: {missing}")
     compile_result = subprocess.run([sys.executable, "-m", "py_compile", *[str(path) for path in sorted((ROOT / "scripts").glob("*.py"))]], capture_output=True, text=True)
     record("Python syntax", compile_result.returncode == 0, "All project Python scripts compile successfully." if compile_result.returncode == 0 else compile_result.stderr[-500:])
+
+    workflow = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    commands = [
+        "python scripts/generate_synthetic_claims.py",
+        "python scripts/validate_data.py",
+        "python scripts/build_clean_dataset.py",
+        "python scripts/build_project.py",
+        "python scripts/qa_project.py",
+    ]
+    positions = [workflow.find(command) for command in commands]
+    ci_ok = (
+        "push:" in workflow
+        and "pull_request:" in workflow
+        and "workflow_dispatch:" in workflow
+        and workflow.count("branches:\n      - main") >= 2
+        and "permissions:\n  contents: read" in workflow
+        and "actions/checkout@v4" in workflow
+        and "actions/setup-python@v5" in workflow
+        and "cache: pip" in workflow
+        and "python -m pip install -r requirements.txt" in workflow
+        and all(position >= 0 for position in positions)
+        and positions == sorted(positions)
+    )
+    record("CI workflow contract", ci_ok, "Push, pull-request and manual triggers run the documented Python install → generate → validate → clean → build → QA sequence with read-only contents permission." if ci_ok else "The GitHub Actions workflow does not match the documented pipeline contract.")
 
 
 def check_links_privacy_and_assets() -> None:
@@ -166,15 +259,42 @@ def check_links_privacy_and_assets() -> None:
                 link_errors.append(f"{source.relative_to(ROOT)} -> {target}")
     record("Internal links", not link_errors, "Zero broken internal Markdown links." if not link_errors else "; ".join(link_errors[:10]))
 
-    banned = [("Old" + " Mutual"), ("Auto" + " & General"), ("Innovation" + " Group")]
+    generated_markdown = [DOCS / "data-quality.md", DOCS / "report-pages.md"]
+    indented_tables = [str(path.relative_to(ROOT)) for path in generated_markdown if re.search(r"(?m)^ {4,}\|", path.read_text(encoding="utf-8"))]
+    record("Generated Markdown structure", not indented_tables, "Generated documentation tables begin at the left margin and render as Markdown rather than code blocks." if not indented_tables else f"Indented tables found in: {indented_tables}")
+
+    external_links = []
+    for source in [ROOT / "README.md", *sorted((ROOT / "docs").glob("*.md"))]:
+        text = source.read_text(encoding="utf-8")
+        external_links.extend(target for target in re.findall(r"!?\[[^\]]*\]\((https?://[^)]+)\)", text))
+    allowed_hosts = ("https://github.com/", "https://learn.microsoft.com/", "https://developer.microsoft.com/")
+    unsafe_links = sorted({link for link in external_links if not link.startswith(allowed_hosts)})
+    record("External link hygiene", not unsafe_links, f"All {len(external_links)} external Markdown links use HTTPS and approved first-party documentation or repository hosts." if not unsafe_links else f"Unexpected external links: {unsafe_links}")
+
+    banned = [("Old" + " Mutual"), ("Auto" + " & General"), ("Innovation" + " Group"), ("omin" + "sure.co.za")]
     hits = []
-    text_extensions = {".md", ".json", ".tmdl", ".m", ".sql", ".py", ".txt"}
+    text_extensions = {".md", ".json", ".tmdl", ".m", ".sql", ".py", ".txt", ".csv", ".yml", ".yaml", ".svg"}
+    email_pattern = re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", flags=re.IGNORECASE)
+    user_path_pattern = re.compile(r"[A-Z]:\\Users\\[^\\\s]+", flags=re.IGNORECASE)
+    credential_patterns = [
+        re.compile("gh" + r"p_[A-Za-z0-9]{20,}"),
+        re.compile("github" + r"_pat_[A-Za-z0-9_]{20,}"),
+        re.compile("sk" + r"-[A-Za-z0-9]{20,}"),
+    ]
     for path in ROOT.rglob("*"):
+        if any(part in {".git", ".venv", "venv", "__pycache__"} for part in path.parts):
+            continue
         if path.is_file() and path.suffix.lower() in text_extensions:
             content = path.read_text(encoding="utf-8", errors="ignore")
             if any(term.lower() in content.lower() for term in banned):
-                hits.append(str(path.relative_to(ROOT)))
-    record("Privacy and neutral branding", not hits, "No named employer branding appears in project text; all claim, policy, handler and supplier data is synthetic." if not hits else f"Terms found in: {hits}")
+                hits.append(f"{path.relative_to(ROOT)}:employer")
+            if email_pattern.search(content):
+                hits.append(f"{path.relative_to(ROOT)}:email")
+            if user_path_pattern.search(content):
+                hits.append(f"{path.relative_to(ROOT)}:local-user-path")
+            if any(pattern.search(content) for pattern in credential_patterns):
+                hits.append(f"{path.relative_to(ROOT)}:credential-pattern")
+    record("Privacy and neutral branding", not hits, "No named employer, email address, local user path or credential pattern appears in project artifacts; all claim, policy, handler and supplier data is synthetic." if not hits else f"Potential privacy terms found in: {sorted(set(hits))}")
 
     mockups = [ROOT / "assets" / name for name in [
         "executive-overview.png", "claims-operations.png", "fraud-risk.png", "financial-performance.png",

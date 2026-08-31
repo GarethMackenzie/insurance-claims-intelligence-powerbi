@@ -249,14 +249,14 @@ def build_findings(df: pd.DataFrame, validation: dict) -> tuple[dict, list[dict]
             {
                 "Investigation_Capacity_Pct": capacity,
                 "Claims_Selected": int(len(selected)),
-                "Potential_Fraud_Captured": captured,
+                "Synthetic_Targets_Captured": captured,
                 "Review_Precision": precision,
-                "Fraud_Recall": recall,
-                "False_Positive_Rate": 1 - precision,
+                "Synthetic_Target_Recall": recall,
+                "Non_Target_Review_Rate": 1 - precision,
                 "Lift_vs_Random": precision / max(base_rate, 0.000001),
             }
         )
-    pd.DataFrame(capacity_rows).to_csv(CLEAN_DIR / "FraudCapacityScenario.csv", index=False)
+    pd.DataFrame(capacity_rows).to_csv(CLEAN_DIR / "ReviewCapacityScenario.csv", index=False)
     cap10 = capacity_rows[1]
 
     findings = [
@@ -312,9 +312,9 @@ def build_findings(df: pd.DataFrame, validation: dict) -> tuple[dict, list[dict]
         {
             "title": "Risk ranking creates review-capacity lift",
             "observation": "The top 10% of synthetic risk scores captures more target events than random review would be expected to capture.",
-            "evidence": f"At 10% capacity, simulated precision is {cap10['Review_Precision']:.1%}, recall is {cap10['Fraud_Recall']:.1%}, and lift is {cap10['Lift_vs_Random']:.2f}×.",
+            "evidence": f"At 10% capacity, simulated review precision is {cap10['Review_Precision']:.1%}, synthetic-target recall is {cap10['Synthetic_Target_Recall']:.1%}, and lift is {cap10['Lift_vs_Random']:.2f}×.",
             "business_implication": "Prioritization can help allocate scarce review capacity, subject to governance and human decision-making.",
-            "possible_action": "Validate thresholds, monitor false positives and retain analyst review before any operational action.",
+            "possible_action": "Validate thresholds, monitor non-target reviews and retain analyst review before any operational action.",
         },
     ]
 

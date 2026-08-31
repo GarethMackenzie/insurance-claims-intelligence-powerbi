@@ -23,11 +23,11 @@
                       "Entity": "Measures"
                     }
                   },
-                  "Property": "Potential Fraud Captured"
+                  "Property": "Synthetic Targets Captured"
                 }
               },
-              "queryRef": "Measures.Potential Fraud Captured",
-              "nativeQueryRef": "Potential Fraud Captured"
+              "queryRef": "Measures.Synthetic Targets Captured",
+              "nativeQueryRef": "Synthetic Targets Captured"
             }
           ]
         }
@@ -47,7 +47,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Potential Fraud Captured'"
+                  "Value": "'Synthetic Targets Captured'"
                 }
               }
             }

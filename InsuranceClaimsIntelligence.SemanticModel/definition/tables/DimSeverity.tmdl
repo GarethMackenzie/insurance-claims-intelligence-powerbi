@@ -7,6 +7,7 @@ table DimSeverity
 		sourceColumn: Severity_Key
 	column Severity_Band
 		dataType: string
+		sortByColumn: Severity_Order
 		sourceColumn: Severity_Band
 	column Severity_Order
 		dataType: int64

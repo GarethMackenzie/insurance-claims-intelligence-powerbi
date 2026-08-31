@@ -41,11 +41,11 @@
                       "Entity": "Measures"
                     }
                   },
-                  "Property": "False Positive Rate"
+                  "Property": "Non-Target Review Rate"
                 }
               },
-              "queryRef": "Measures.False Positive Rate",
-              "nativeQueryRef": "False Positive Rate"
+              "queryRef": "Measures.Non-Target Review Rate",
+              "nativeQueryRef": "Non-Target Review Rate"
             }
           ]
         }
@@ -65,7 +65,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'False-positive exposure'"
+                  "Value": "'Non-target review exposure'"
                 }
               }
             }

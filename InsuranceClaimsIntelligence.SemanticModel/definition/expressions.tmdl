@@ -1,4 +1,4 @@
-expression pProjectRoot = "C:\Users\gmackenz\Documents\ChatGPT\Assignment\insurance-claims-intelligence-powerbi" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+expression pProjectRoot = "C:\path\to\insurance-claims-intelligence-powerbi" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
     lineageTag: 4e6c58ca-c05e-5b51-8965-11195f66ad7b
 
 expression fnLoadCsv = ```

@@ -1,6 +1,6 @@
 {
-  "checks": 23,
-  "passed": 23,
+  "checks": 30,
+  "passed": 30,
   "failed": 0,
   "status": "PASS",
   "results": [
@@ -55,6 +55,11 @@
       "evidence": "No orphan surrogate keys across nine categorical dimensions."
     },
     {
+      "check": "Portfolio metric reconciliation",
+      "status": "PASS",
+      "evidence": "Ten prominent metrics reconcile from clean data through portfolio_metrics.json to the README snapshot."
+    },
+    {
       "check": "JSON syntax",
       "status": "PASS",
       "evidence": "Parsed 189 JSON files with UTF-8 decoding."
@@ -63,6 +68,11 @@
       "check": "Microsoft schema declarations",
       "status": "PASS",
       "evidence": "All PBIP/PBIR semantic-model JSON artifacts declare current Microsoft Fabric schema URLs."
+    },
+    {
+      "check": "PBIP artifact references",
+      "status": "PASS",
+      "evidence": "PBIP resolves to the report artifact and PBIR resolves to the sibling semantic model by path."
     },
     {
       "check": "Current report schema and theme package",
@@ -80,14 +90,24 @@
       "evidence": "Measures=79; relationships=13; multi-line DAX fences balanced."
     },
     {
-      "check": "Relationship direction",
+      "check": "Marked date-table semantics",
       "status": "PASS",
-      "evidence": "No bidirectional filter declaration; two role-playing date relationships are explicitly inactive."
+      "evidence": "DimDate is categorized as Time; the related Date column is the key and the hidden integer surrogate is not the date key."
     },
     {
-      "check": "DAX safety patterns",
+      "check": "Semantic display ordering",
       "status": "PASS",
-      "evidence": "Explicit measure table uses DIVIDE and documented formats; Desktop parsing remains a final host check."
+      "evidence": "Month, status, severity and risk labels use governed numeric sort columns."
+    },
+    {
+      "check": "Relationship direction",
+      "status": "PASS",
+      "evidence": "No bidirectional filter declaration; exactly two role-playing date relationships are inactive."
+    },
+    {
+      "check": "DAX safety and terminology",
+      "status": "PASS",
+      "evidence": "Explicit measures use DIVIDE, governed open-status logic and synthetic/human-review terminology; Desktop parsing remains a final host check."
     },
     {
       "check": "SQL analytical coverage",
@@ -100,14 +120,29 @@
       "evidence": "All project Python scripts compile successfully."
     },
     {
+      "check": "CI workflow contract",
+      "status": "PASS",
+      "evidence": "Push, pull-request and manual triggers run the documented Python install \u2192 generate \u2192 validate \u2192 clean \u2192 build \u2192 QA sequence with read-only contents permission."
+    },
+    {
       "check": "Internal links",
       "status": "PASS",
       "evidence": "Zero broken internal Markdown links."
     },
     {
+      "check": "Generated Markdown structure",
+      "status": "PASS",
+      "evidence": "Generated documentation tables begin at the left margin and render as Markdown rather than code blocks."
+    },
+    {
+      "check": "External link hygiene",
+      "status": "PASS",
+      "evidence": "All 6 external Markdown links use HTTPS and approved first-party documentation or repository hosts."
+    },
+    {
       "check": "Privacy and neutral branding",
       "status": "PASS",
-      "evidence": "No named employer branding appears in project text; all claim, policy, handler and supplier data is synthetic."
+      "evidence": "No named employer, email address, local user path or credential pattern appears in project artifacts; all claim, policy, handler and supplier data is synthetic."
     },
     {
       "check": "Preview asset integrity",

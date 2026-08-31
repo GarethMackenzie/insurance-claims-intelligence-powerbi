@@ -69,7 +69,7 @@ def build_measures(metrics: dict) -> list[dict]:
     pp = "0.0 pp"
     measures = [
         measure("Total Claims", "DISTINCTCOUNT ( FactClaims[Claim_ID] )", "#,0", "Distinct synthetic claims in filter context.", "Volume"),
-        measure("Open Claims", "CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Status_Key] <= 6 ) )", "#,0", "Claims not in a terminal status.", "Volume"),
+        measure("Open Claims", "CALCULATE ( [Total Claims], KEEPFILTERS ( DimStatus[Open_Status_Flag] = 1 ) )", "#,0", "Claims in governed open lifecycle statuses.", "Volume"),
         measure("Settled Claims", "CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Status_Key] = 7 ) )", "#,0", "Claims in Settled status.", "Volume"),
         measure("Rejected Claims", "CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Status_Key] = 8 ) )", "#,0", "Claims in Rejected status.", "Volume"),
         measure("Claims per Policy", "DIVIDE ( [Total Claims], DISTINCTCOUNT ( FactClaims[Policy_ID] ) )", "0.00", "Claim frequency proxy for the synthetic portfolio.", "Volume"),
@@ -94,7 +94,7 @@ def build_measures(metrics: dict) -> list[dict]:
         measure("Claims Per Handler", "DIVIDE ( [Total Claims], [Active Handlers] )", "0.0", "Filtered claims per active handler.", "Workload"),
         measure("Open Claims Per Handler", "DIVIDE ( [Open Claims], [Active Handlers] )", "0.0", "Open filtered workload per active handler.", "Workload"),
         measure("Average Reporting Delay", "AVERAGE ( FactClaims[Reporting_Delay_Days] )", "0.0", "Average days from loss to report.", "Operations"),
-        measure("Average Open Age", "CALCULATE ( AVERAGE ( FactClaims[Open_Claim_Age_Days] ), FactClaims[Status_Key] <= 6 )", "0.0", "Average age of open claims.", "Operations"),
+        measure("Average Open Age", "CALCULATE ( AVERAGE ( FactClaims[Open_Claim_Age_Days] ), KEEPFILTERS ( DimStatus[Open_Status_Flag] = 1 ) )", "0.0", "Average age of claims in governed open lifecycle statuses.", "Operations"),
         measure("Claims MTD", "CALCULATE ( [Total Claims], DATESMTD ( DimDate[Date] ) )", "#,0", "Month-to-date claims by loss date.", "Time Intelligence"),
         measure("Claims QTD", "CALCULATE ( [Total Claims], DATESQTD ( DimDate[Date] ) )", "#,0", "Quarter-to-date claims by loss date.", "Time Intelligence"),
         measure("Claims YTD", "CALCULATE ( [Total Claims], DATESYTD ( DimDate[Date] ) )", "#,0", "Year-to-date claims by loss date.", "Time Intelligence"),
@@ -112,8 +112,8 @@ def build_measures(metrics: dict) -> list[dict]:
         measure("Rolling 12M Incurred", "CALCULATE ( [Total Incurred], DATESINPERIOD ( DimDate[Date], MAX ( DimDate[Date] ), -12, MONTH ) )", currency, "Incurred over the rolling 12 months ending in context.", "Time Intelligence"),
         measure("Large Loss Count", "CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Claim_Amount] >= 250000 ) )", "#,0", "Claims at or above R250,000.", "Financial"),
         measure("Large Loss Exposure", "CALCULATE ( [Total Incurred], KEEPFILTERS ( FactClaims[Claim_Amount] >= 250000 ) )", currency, "Incurred exposure from large losses.", "Financial"),
-        measure("30+ Day Open Claims", "CALCULATE ( [Total Claims], FactClaims[Status_Key] <= 6, FactClaims[Open_Claim_Age_Days] >= 30 )", "#,0", "Open claims aged at least 30 days.", "Backlog"),
-        measure("60+ Day Open Claims", "CALCULATE ( [Total Claims], FactClaims[Status_Key] <= 6, FactClaims[Open_Claim_Age_Days] >= 60 )", "#,0", "Open claims aged at least 60 days.", "Backlog"),
+        measure("30+ Day Open Claims", "CALCULATE ( [Total Claims], KEEPFILTERS ( DimStatus[Open_Status_Flag] = 1 ), KEEPFILTERS ( FactClaims[Open_Claim_Age_Days] >= 30 ) )", "#,0", "Open claims aged at least 30 days.", "Backlog"),
+        measure("60+ Day Open Claims", "CALCULATE ( [Total Claims], KEEPFILTERS ( DimStatus[Open_Status_Flag] = 1 ), KEEPFILTERS ( FactClaims[Open_Claim_Age_Days] >= 60 ) )", "#,0", "Open claims aged at least 60 days.", "Backlog"),
         measure("Backlog %", "DIVIDE ( [30+ Day Open Claims], [Open Claims] )", pct, "Share of open claims aged at least 30 days.", "Backlog"),
         measure("Awaiting Documents Claims", "CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Status_Key] = 3 ) )", "#,0", "Claims awaiting documentation.", "Backlog"),
         measure("Awaiting Supplier Claims", "CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Status_Key] = 4 ) )", "#,0", "Claims awaiting supplier activity.", "Backlog"),
@@ -121,11 +121,11 @@ def build_measures(metrics: dict) -> list[dict]:
         measure("Reserve per Open Claim", "DIVIDE ( [Outstanding Reserve], [Open Claims] )", currency, "Outstanding reserve per open claim.", "Financial"),
         measure("Investigation Capacity %", "DIVIDE ( SELECTEDVALUE ( 'Investigation Capacity'[Investigation Capacity], 10 ), 100 )", pct, "Selected proportion of claims that the review team can investigate.", "Review Capacity"),
         measure("Claims Selected for Review", "VAR Capacity = [Investigation Capacity %]\nRETURN COUNTROWS ( FILTER ( VALUES ( FactClaims[Claim_ID] ), CALCULATE ( MAX ( FactClaims[Risk_Rank_Percentile] ) ) > 1 - Capacity ) )", "#,0", "Claims in the highest risk-score percentile within selected capacity.", "Review Capacity"),
-        measure("Potential Fraud Captured", "VAR Capacity = [Investigation Capacity %]\nRETURN SUMX ( FILTER ( VALUES ( FactClaims[Claim_ID] ), CALCULATE ( MAX ( FactClaims[Risk_Rank_Percentile] ) ) > 1 - Capacity ), CALCULATE ( MAX ( FactClaims[Synthetic_Fraud_Target_Flag] ) ) )", "#,0", "Synthetic target events in the selected review queue.", "Review Capacity"),
+        measure("Synthetic Targets Captured", "VAR Capacity = [Investigation Capacity %]\nRETURN SUMX ( FILTER ( VALUES ( FactClaims[Claim_ID] ), CALCULATE ( MAX ( FactClaims[Risk_Rank_Percentile] ) ) > 1 - Capacity ), CALCULATE ( MAX ( FactClaims[Synthetic_Fraud_Target_Flag] ) ) )", "#,0", "Synthetic demonstration target events in the selected review queue.", "Review Capacity"),
         measure("Synthetic Target Events", "SUM ( FactClaims[Synthetic_Fraud_Target_Flag] )", "#,0", "Synthetic binary target used only to demonstrate prioritization metrics.", "Review Capacity"),
-        measure("Review Precision", "DIVIDE ( [Potential Fraud Captured], [Claims Selected for Review] )", pct, "Synthetic target events divided by selected claims.", "Review Capacity"),
-        measure("Fraud Recall", "DIVIDE ( [Potential Fraud Captured], [Synthetic Target Events] )", pct, "Share of synthetic target events captured by the queue.", "Review Capacity"),
-        measure("False Positive Rate", "1 - [Review Precision]", pct, "Selected claims without the synthetic target flag; not real fraud outcomes.", "Review Capacity"),
+        measure("Review Precision", "DIVIDE ( [Synthetic Targets Captured], [Claims Selected for Review] )", pct, "Synthetic target events divided by selected claims.", "Review Capacity"),
+        measure("Synthetic Target Recall", "DIVIDE ( [Synthetic Targets Captured], [Synthetic Target Events] )", pct, "Share of synthetic demonstration target events captured by the queue.", "Review Capacity"),
+        measure("Non-Target Review Rate", "1 - [Review Precision]", pct, "Selected claims without the synthetic target flag; this is not a real false-positive rate.", "Review Capacity"),
         measure("Review Workload", "[Claims Selected for Review]", "#,0", "Selected investigation queue volume.", "Review Capacity"),
         measure("Base Synthetic Target Rate", "DIVIDE ( [Synthetic Target Events], [Total Claims] )", pct, "Portfolio-wide synthetic target rate.", "Review Capacity"),
         measure("Lift vs Random Review", "DIVIDE ( [Review Precision], [Base Synthetic Target Rate] )", "0.00×", "Review precision divided by the portfolio target rate.", "Review Capacity"),
@@ -353,11 +353,21 @@ def quote_tmdl(name: str) -> str:
     return f"'{name}'" if any(ch in name for ch in " -+%&/") else name
 
 
-def table_tmdl(table_name: str, csv_path: Path, key_columns: set[str] | None = None, hidden_columns: set[str] | None = None) -> str:
+def table_tmdl(
+    table_name: str,
+    csv_path: Path,
+    key_columns: set[str] | None = None,
+    hidden_columns: set[str] | None = None,
+    table_data_category: str | None = None,
+    sort_columns: dict[str, str] | None = None,
+) -> str:
     key_columns = key_columns or set()
     hidden_columns = hidden_columns or set()
+    sort_columns = sort_columns or {}
     frame = pd.read_csv(csv_path, nrows=200)
     lines = [f"table {quote_tmdl(table_name)}"]
+    if table_data_category:
+        lines.append(f"\tdataCategory: {table_data_category}")
     m_fields = []
     for column in frame.columns:
         dtype = infer_tmdl_type(column, frame[column].dtype)
@@ -367,6 +377,8 @@ def table_tmdl(table_name: str, csv_path: Path, key_columns: set[str] | None = N
             lines.append("\t\tisKey")
         if column in hidden_columns:
             lines.append("\t\tisHidden")
+        if column in sort_columns:
+            lines.append(f"\t\tsortByColumn: {quote_tmdl(sort_columns[column])}")
         if dtype in {"int64", "double", "decimal"}:
             lines.append("\t\tsummarizeBy: none")
         if dtype == "dateTime":
@@ -398,28 +410,31 @@ def table_tmdl(table_name: str, csv_path: Path, key_columns: set[str] | None = N
 
 def create_semantic_model(measures: list[dict]) -> int:
     tables = [
-        ("DimDate", CLEAN / "DimDate.csv", {"Date_Key"}),
-        ("DimProduct", CLEAN / "DimProduct.csv", {"Product_Key"}),
-        ("DimRegion", CLEAN / "DimRegion.csv", {"Region_Key"}),
-        ("DimClaimType", CLEAN / "DimClaimType.csv", {"Claim_Type_Key"}),
-        ("DimHandler", CLEAN / "DimHandler.csv", {"Handler_Key"}),
-        ("DimChannel", CLEAN / "DimChannel.csv", {"Channel_Key"}),
-        ("DimSupplier", CLEAN / "DimSupplier.csv", {"Supplier_Key"}),
-        ("DimStatus", CLEAN / "DimStatus.csv", {"Status_Key"}),
-        ("DimSeverity", CLEAN / "DimSeverity.csv", {"Severity_Key"}),
-        ("DimRisk", CLEAN / "DimRisk.csv", {"Risk_Key"}),
-        ("FactClaims", CLEAN / "FactClaims.csv", {"Claim_ID"}),
-        ("DataQualityIssues", DATA / "data_quality_issues.csv", {"Issue_ID"}),
+        ("DimDate", CLEAN / "DimDate.csv", {"Date"}, "Time", {"Month": "Month_Number", "Month_Short": "Month_Number", "Year_Month": "Year_Month_Sort"}),
+        ("DimProduct", CLEAN / "DimProduct.csv", {"Product_Key"}, None, {}),
+        ("DimRegion", CLEAN / "DimRegion.csv", {"Region_Key"}, None, {}),
+        ("DimClaimType", CLEAN / "DimClaimType.csv", {"Claim_Type_Key"}, None, {}),
+        ("DimHandler", CLEAN / "DimHandler.csv", {"Handler_Key"}, None, {}),
+        ("DimChannel", CLEAN / "DimChannel.csv", {"Channel_Key"}, None, {}),
+        ("DimSupplier", CLEAN / "DimSupplier.csv", {"Supplier_Key"}, None, {}),
+        ("DimStatus", CLEAN / "DimStatus.csv", {"Status_Key"}, None, {"Claim_Status": "Status_Order"}),
+        ("DimSeverity", CLEAN / "DimSeverity.csv", {"Severity_Key"}, None, {"Severity_Band": "Severity_Order"}),
+        ("DimRisk", CLEAN / "DimRisk.csv", {"Risk_Key"}, None, {"Risk_Band": "Risk_Order"}),
+        ("FactClaims", CLEAN / "FactClaims.csv", {"Claim_ID"}, None, {}),
+        ("DataQualityIssues", DATA / "data_quality_issues.csv", {"Issue_ID"}, None, {}),
     ]
     hidden_fact = {
         "Loss_Date_Key", "Report_Date_Key", "Settlement_Date_Key", "Product_Key", "Region_Key",
         "Claim_Type_Key", "Handler_Key", "Channel_Key", "Supplier_Key", "Status_Key", "Severity_Key", "Risk_Key",
     }
-    for table_name, csv_path, keys in tables:
+    for table_name, csv_path, keys, data_category, sort_columns in tables:
         hidden = {column for column in pd.read_csv(csv_path, nrows=0).columns if column.endswith("_Key")}
         if table_name == "FactClaims":
             hidden |= hidden_fact
-        write(MODEL_DEF / "tables" / f"{table_name}.tmdl", table_tmdl(table_name, csv_path, keys, hidden))
+        write(
+            MODEL_DEF / "tables" / f"{table_name}.tmdl",
+            table_tmdl(table_name, csv_path, keys, hidden, data_category, sort_columns),
+        )
 
     measure_lines = ["table Measures", "\tcolumn Value", "\t\tdataType: int64", "\t\tisHidden", "\t\tsummarizeBy: none", "\t\tsourceColumn: Value", ""]
     for item in measures:
@@ -491,7 +506,7 @@ def create_semantic_model(measures: list[dict]) -> int:
             annotation PBI_Id = 7de4f9eb7d7a4cfb845c7e4c883401bc
     """)
 
-    model_tables = [name for name, _, _ in tables] + ["Measures", "Investigation Capacity", "Analysis Metric"]
+    model_tables = [name for name, *_ in tables] + ["Measures", "Investigation Capacity", "Analysis Metric"]
     model_lines = [
         "model Model",
         "\tculture: en-ZA",
@@ -538,7 +553,7 @@ def create_semantic_model(measures: list[dict]) -> int:
         relationship_lines.append("")
     write(MODEL_DEF / "relationships.tmdl", "\n".join(relationship_lines))
 
-    root_path = str(ROOT).replace("\\", "\\")
+    root_path = r"C:\path\to\insurance-claims-intelligence-powerbi"
     write(MODEL_DEF / "expressions.tmdl", f''' 
         expression pProjectRoot = "{root_path}" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
             lineageTag: {stable_guid('pProjectRoot')}
@@ -730,17 +745,17 @@ PAGES = [
         ],
     },
     {
-        "name": "Fraud & Risk Intelligence",
+        "name": "Risk & Review Intelligence",
         "slug": "fraud-risk",
-        "audience": "Fraud / SIU Manager",
-        "kpis": ["High Risk Claims", "Fraud Referral Rate %", "Investigation Capacity %", "Claims Selected for Review", "Potential Fraud Captured", "Review Precision", "Fraud Recall", "Lift vs Random Review"],
+        "audience": "Risk / SIU Manager",
+        "kpis": ["High Risk Claims", "Fraud Referral Rate %", "Investigation Capacity %", "Claims Selected for Review", "Synthetic Targets Captured", "Review Precision", "Synthetic Target Recall", "Lift vs Random Review"],
         "charts": [
             ("clusteredColumnChart", "Risk-band distribution", ("DimRisk", "Risk_Band"), "Total Claims", None),
             ("clusteredBarChart", "Risk by claim type", ("DimClaimType", "Claim_Type"), "High Risk Claims %", None),
             ("clusteredBarChart", "Risk by region", ("DimRegion", "Region"), "High Risk Claims %", None),
             ("scatterChart", "Risk vs reporting delay", ("FactClaims", "Reporting_Delay_Days"), "Fraud Referral Rate %", None),
             ("clusteredColumnChart", "Risk by severity", ("DimSeverity", "Severity_Band"), "High Risk Claims %", None),
-            ("clusteredColumnChart", "False-positive exposure", ("Investigation Capacity", "Investigation Capacity"), "False Positive Rate", None),
+            ("clusteredColumnChart", "Non-target review exposure", ("Investigation Capacity", "Investigation Capacity"), "Non-Target Review Rate", None),
         ],
     },
     {
@@ -947,8 +962,8 @@ def create_mockups(metrics: dict) -> None:
         "High Risk Claims": metrics["high_risk_claims"], "Fraud Referral Rate %": metrics["fraud_referral_rate"],
         "Reopen Rate %": metrics["reopen_rate"], "Complaint Rate %": metrics["complaint_rate"],
         "Investigation Capacity %": 0.10, "Claims Selected for Review": metrics["capacity_scenarios"][1]["Claims_Selected"],
-        "Potential Fraud Captured": metrics["capacity_scenarios"][1]["Potential_Fraud_Captured"], "Review Precision": metrics["capacity_scenarios"][1]["Review_Precision"],
-        "Fraud Recall": metrics["capacity_scenarios"][1]["Fraud_Recall"], "Lift vs Random Review": metrics["capacity_scenarios"][1]["Lift_vs_Random"],
+        "Synthetic Targets Captured": metrics["capacity_scenarios"][1]["Synthetic_Targets_Captured"], "Review Precision": metrics["capacity_scenarios"][1]["Review_Precision"],
+        "Synthetic Target Recall": metrics["capacity_scenarios"][1]["Synthetic_Target_Recall"], "Lift vs Random Review": metrics["capacity_scenarios"][1]["Lift_vs_Random"],
         "Large Loss Count": 14_000, "Large Loss Exposure": metrics["total_incurred"] * 0.52, "Incurred YoY %": 0.12,
         "Claims per Policy": 1.55, "Claims Per Handler": metrics["claims"] / 30, "Open Claims Per Handler": metrics["open_claims"] / 30,
         "Balanced Effectiveness Score": 1.0, "Selected Metric Value": metrics["total_incurred"], "Severity YoY %": 0.09,
@@ -957,6 +972,15 @@ def create_mockups(metrics: dict) -> None:
         "Invalid Date Count": 350, "Data Quality Score": metrics["data_quality_score"], "Detected Data Quality Issues": metrics["detected_issues"],
         "30+ Day Open Claims": int(metrics["open_claims"] * 0.61), "60+ Day Open Claims": int(metrics["open_claims"] * 0.42),
         "Awaiting Documents Claims": int(metrics["open_claims"] * 0.25), "Awaiting Supplier Claims": int(metrics["open_claims"] * 0.17),
+    }
+    metric_labels = {
+        "90th Percentile Settlement Days": "P90 Settlement Days",
+        "Claims Selected for Review": "Claims Selected",
+        "Synthetic Targets Captured": "Synthetic Targets Captured",
+        "Awaiting Documents Claims": "Awaiting Documents",
+        "Awaiting Supplier Claims": "Awaiting Supplier",
+        "Detected Data Quality Issues": "Detected DQ Issues",
+        "Balanced Effectiveness Score": "Balanced Effectiveness",
     }
     title_font, sub_font, kpi_font, kpi_value_font, small_font = load_font(28, True), load_font(13), load_font(12, True), load_font(22, True), load_font(11)
     for page_index, page in enumerate(PAGES):
@@ -974,7 +998,7 @@ def create_mockups(metrics: dict) -> None:
             x = 40 + index * 190
             draw.rounded_rectangle((x, 154, x + 176, 252), radius=9, fill=COLORS["slate"], outline="#254763", width=2)
             value = metric_values.get(name, metrics["claims"] / (index + 2))
-            draw.text((x + 12, 170), name[:23], font=small_font, fill=COLORS["muted"])
+            draw.text((x + 12, 170), metric_labels.get(name, name), font=small_font, fill=COLORS["muted"])
             draw.text((x + 12, 205), fmt_metric(name, value), font=kpi_value_font, fill=COLORS["light"])
             draw.rectangle((x + 12, 238, x + 164, 241), fill=COLORS["teal"] if index % 3 != 2 else COLORS["amber"])
         chart_titles = [chart[1] for chart in page["charts"]]
@@ -1308,8 +1332,8 @@ def create_sql_files() -> None:
             selected_claims,
             captured_targets,
             captured_targets * 1.0 / NULLIF(selected_claims, 0) AS review_precision,
-            captured_targets * 1.0 / NULLIF(total_targets, 0) AS fraud_recall,
-            1 - captured_targets * 1.0 / NULLIF(selected_claims, 0) AS false_positive_rate,
+            captured_targets * 1.0 / NULLIF(total_targets, 0) AS synthetic_target_recall,
+            1 - captured_targets * 1.0 / NULLIF(selected_claims, 0) AS non_target_review_rate,
             (captured_targets * 1.0 / NULLIF(selected_claims, 0)) /
                 NULLIF(total_targets * 1.0 / total_claims, 0) AS lift_vs_random
         FROM capacity_results
@@ -1369,6 +1393,13 @@ FIELD_DESCRIPTIONS = {
     "Synthetic_Fraud_Target_Flag": "Synthetic outcome used only to demonstrate precision, recall and lift.",
     "Risk_Rank_Percentile": "Portfolio percentile of the synthetic risk score.",
     "Review_Priority": "Operational priority band derived from risk score thresholds.",
+    "Investigation_Capacity_Pct": "Illustrative share of claims that can be selected for analyst review.",
+    "Claims_Selected": "Claims included in the capacity-constrained synthetic review queue.",
+    "Synthetic_Targets_Captured": "Synthetic demonstration target events included in the selected queue.",
+    "Review_Precision": "Synthetic target events divided by claims selected for review.",
+    "Synthetic_Target_Recall": "Share of all synthetic demonstration target events included in the selected queue.",
+    "Non_Target_Review_Rate": "Share of selected claims without the synthetic target flag; not a real false-positive rate.",
+    "Lift_vs_Random": "Review precision divided by the portfolio-wide synthetic target rate.",
     "Reopened_Flag": "Indicates that a claim was synthetically reopened.",
     "Complaint_Flag": "Indicates a simulated complaint linked to the claim.",
     "Documentation_Missing_Flag": "Latent synthetic feature representing missing documentation during handling.",
@@ -1577,7 +1608,7 @@ def create_docs(metrics: dict, findings: list[dict], measures: list[dict], relat
 
         Operational fields are correlated by construction. Complexity rises with amount and selected claim types. Missing documentation adds assessment and decision delay. Two simulated backlog windows add cycle time. Large or complex claims generally settle more slowly and carry larger simplified case reserves. Complaints and reopening are more likely when SLA or complexity signals are adverse.
 
-        The risk score combines reporting delay, prior claims, theft/fire indicators, large-loss status, channel, policy tenure and small regional effects, plus noise. `Synthetic_Fraud_Target_Flag` is a seeded demonstration outcome used to calculate precision, recall and lift. Neither field represents a real fraud model or confirms fraud.
+        The risk score combines reporting delay, prior claims, theft/fire indicators, large-loss status, channel, policy tenure and small regional effects, plus noise. `Synthetic_Fraud_Target_Flag` is a clearly named seeded demonstration outcome used to calculate review precision, synthetic-target recall and lift. Neither field represents a real fraud model or confirms fraud.
 
         ## Quality challenge
 
@@ -1601,7 +1632,7 @@ def create_docs(metrics: dict, findings: list[dict], measures: list[dict], relat
     write(DOCS / "executive-insights.md", "\n".join(insight_sections))
 
     validation = json.loads((DATA / "validation_summary.json").read_text(encoding="utf-8"))
-    issue_rows = "\n".join(f"| {name} | {count:,} |" for name, count in validation["issues_by_type"].items())
+    issue_rows = textwrap.indent("\n".join(f"| {name} | {count:,} |" for name, count in validation["issues_by_type"].items()), "        ")
     write(DOCS / "data-quality.md", f"""
         # Data quality challenge
 
@@ -1609,7 +1640,7 @@ def create_docs(metrics: dict, findings: list[dict], measures: list[dict], relat
 
         | Issue type | Detected events |
         |---|---:|
-        {issue_rows}
+{issue_rows}
 
         ## Controls
 
@@ -1660,7 +1691,7 @@ def create_docs(metrics: dict, findings: list[dict], measures: list[dict], relat
         4. Open `InsuranceClaimsIntelligence.pbip`.
         5. If the repository moved, edit the `pProjectRoot` Power Query parameter to the new absolute repository path.
         6. Import `theme/insurance-intelligence-theme.json` if Desktop does not automatically retain an external theme reference.
-        7. Mark `DimDate[Date]` as the date table and refresh.
+        7. Confirm that `DimDate[Date]` is recognized as the model's marked date column and refresh.
         8. Inspect relationships, roles and the {len(measures)}-measure `Measures` table before publishing.
 
         ## Desktop-only finishing checks
@@ -1671,7 +1702,7 @@ def create_docs(metrics: dict, findings: list[dict], measures: list[dict], relat
 
         After a successful refresh and interaction check, use **File → Save a copy** and select `.pbix` if a binary distribution is needed. This repository intentionally does not fabricate or commit a PBIX.
     """)
-    page_rows = "\n".join(f"| {i} | {page['name']} | {page['audience']} | {', '.join(chart[1] for chart in page['charts'])} |" for i, page in enumerate(PAGES, start=1))
+    page_rows = textwrap.indent("\n".join(f"| {i} | {page['name']} | {page['audience']} | {', '.join(chart[1] for chart in page['charts'])} |" for i, page in enumerate(PAGES, start=1)), "        ")
     write(DOCS / "report-pages.md", f"""
         # Report page specification
 
@@ -1679,7 +1710,7 @@ def create_docs(metrics: dict, findings: list[dict], measures: list[dict], relat
 
         | # | Page | Audience | Analytical views |
         |---:|---|---|---|
-        {page_rows}
+{page_rows}
 
         ## UX implementation status
 
@@ -1709,30 +1740,27 @@ def create_readme(metrics: dict, findings: list[dict], measures: list[dict], rel
 
         [![Project QA](https://github.com/GarethMackenzie/insurance-claims-intelligence-powerbi/actions/workflows/ci.yml/badge.svg)](https://github.com/GarethMackenzie/insurance-claims-intelligence-powerbi/actions/workflows/ci.yml)
 
-        **Executive Claims Performance, Fraud Risk & Operational Analytics Command Center**
-
-        An end-to-end Power BI insurance analytics portfolio project combining dimensional modelling, Power Query, DAX, operational analytics, financial exposure analysis, risk-based review prioritization and executive reporting.
+        ## Executive Claims Performance, Risk & Operational Analytics
 
         > **Portfolio demonstration using synthetic data only.** No customer, policyholder, claim, or employer-confidential information is used. All findings are synthetic portfolio findings, not workplace achievements.
 
-        ## Business problem
+        **Source/runtime status:** Structurally validated from PBIP/PBIR/TMDL source. Final visual rendering and interaction verification requires a current Power BI Desktop host.
+
+        ## Business Problem
 
         Claims leaders need a governed view of cost, severity, lifecycle delay, SLA, backlog, reserve exposure, regional concentration and limited fraud-review capacity. This solution is designed around management questions: what changed, where pressure is building, why it matters, and what to investigate next.
 
-        ## What I built
+        ## Solution Overview
 
-        - A deterministic Python generator for **{metrics['claims']:,} synthetic claims** from {metrics['date_min']} to {metrics['date_max']}.
-        - A controlled raw-data challenge with **{metrics['seeded_issues']:,} quality issue events** and a complete correction audit.
-        - A clean star schema with `FactClaims`, ten conformed dimensions and {relationships} relationships.
-        - A source-control-friendly PBIP project using enhanced PBIR report definitions and TMDL semantic-model files.
-        - A dedicated DAX measure layer with **{len(measures)} explicit measures**, time intelligence, dynamic exceptions, balanced handler analytics and a review-capacity simulator.
-        - Eight executive report pages, {visuals} visual containers, ANSI-oriented analytical SQL, reusable M and detailed documentation.
+        | Capability | Evidence in this repository |
+        |---|---|
+        | Governed data pipeline | Deterministic Python generation, independent validation, correction audit and clean star-schema build |
+        | Power BI engineering | Editable PBIP, enhanced PBIR and TMDL source with explicit relationships and a dedicated measure table |
+        | Claims analytics | Executive, operations, financial, regional, handler, root-cause, risk-review and data-quality views |
+        | Analytical depth | {len(measures)} DAX measures, reusable Power Query M, six SQL modules and a capacity-constrained review simulator |
+        | Quality controls | Reproducibility, reconciliation, semantic-model, privacy, asset, link and CI contract checks |
 
-        ## Why it matters
-
-        The project demonstrates more than chart construction: reproducibility, data-quality governance, dimensional design, insurance operations, financial exposure, responsible risk terminology, human-in-the-loop prioritization and executive analytical storytelling.
-
-        ## Portfolio snapshot
+        ## Executive Portfolio Snapshot
 
         | Metric | Synthetic result |
         |---|---:|
@@ -1746,55 +1774,67 @@ def create_readme(metrics: dict, findings: list[dict], measures: list[dict], rel
         | High/Critical risk share | {metrics['high_risk_rate']:.1%} |
         | Data quality detection | {metrics['detected_issues']:,} / {metrics['seeded_issues']:,} ({metrics['detected_issues']/metrics['seeded_issues']:.0%}) |
 
-        ## Technology
+        ### Key synthetic findings
 
-        `Power BI Project (PBIP)` · `Enhanced PBIR` · `TMDL` · `DAX` · `Power Query M` · `Python` · `pandas` · `NumPy` · `SQL` · `Git/GitHub`
+{findings_md}
+
+        Evidence, implications and cautious action framing are in [executive-insights.md](docs/executive-insights.md).
 
         ## Architecture
 
         ![Insurance Claims Intelligence solution architecture](assets/architecture.svg)
 
-        See [architecture](docs/architecture.md), [data model](docs/data-model.md), [methodology](docs/methodology.md), and the complete [data dictionary](docs/data-dictionary.md) ({field_count} fields).
+        `synthetic raw data → validation audit → governed clean star schema → Power Query → TMDL semantic model → enhanced PBIR report source → automated QA`
 
-        ## Dashboard design mockups
+        See [architecture](docs/architecture.md) and [methodology](docs/methodology.md).
+
+        ## Dashboard / Report Pages
 
         These images are **design mockups, not Power BI screenshots**. The editable visual definitions are in [`InsuranceClaimsIntelligence.Report`](InsuranceClaimsIntelligence.Report/definition/pages/).
 
         | Executive overview | Claims operations |
         |---|---|
         | ![Executive overview design mockup](assets/executive-overview.png) | ![Claims operations design mockup](assets/claims-operations.png) |
-        | Fraud & risk | Financial performance |
-        | ![Fraud and risk design mockup](assets/fraud-risk.png) | ![Financial performance design mockup](assets/financial-performance.png) |
+        | Risk & review | Financial performance |
+        | ![Risk and review design mockup](assets/fraud-risk.png) | ![Financial performance design mockup](assets/financial-performance.png) |
         | Regional intelligence | Handler performance |
         | ![Regional intelligence design mockup](assets/regional-intelligence.png) | ![Handler performance design mockup](assets/handler-performance.png) |
         | Root-cause analysis | Data quality |
         | ![Root cause design mockup](assets/root-cause-analysis.png) | ![Data quality design mockup](assets/data-quality.png) |
 
-        Page scope and feature status are documented in [report-pages.md](docs/report-pages.md).
+        Page scope and implementation status are documented in [report-pages.md](docs/report-pages.md).
 
-        ## Key synthetic findings
-
-{findings_md}
-
-        Read the evidence, implications and cautious action framing in [executive-insights.md](docs/executive-insights.md).
-
-        ## Data model
+        ## Data Model
 
         ![Insurance claims star schema](assets/data-model.svg)
 
-        Dimensions filter `FactClaims` one-to-many in a single direction. Loss date is the active date path; report and settlement date are inactive role-playing relationships. Disconnected capacity and analysis-metric tables support what-if and parameterized analysis.
+        `FactClaims` is one row per claim. Ten conformed dimensions filter it in a single direction across {relationships} relationships. `DimDate[Date]` is the marked date column; loss date is active, while report and settlement dates are inactive role-playing paths. The complete [data dictionary](docs/data-dictionary.md) documents {field_count} physical fields.
 
-        ## DAX, Power Query and SQL
+        ## DAX & Semantic Layer
 
-        - [DAX measure catalogue](dax/measures.md) documents every explicit measure and format.
-        - [Power Query design](docs/power-query.md) explains staging, reusable functions, type enforcement, duplicate detection and validation.
-        - [`sql/`](sql/) contains dimensional DDL, data-quality checks, performance views, risk-capacity logic and financial analysis using CTEs and window functions.
+        The model discourages implicit measures and provides {len(measures)} documented measures for financial exposure, severity, service, backlog, time intelligence, review capacity and balanced workload analysis. Ratios use `DIVIDE`; open-claim logic uses the governed status flag; month, status, severity and risk labels have explicit sort columns. See the [DAX catalogue](dax/measures.md).
 
-        ## Data quality
+        ## Power Query & Data Quality
 
-        The raw layer contains {metrics['raw_rows']:,} rows and {metrics['seeded_issues']:,} controlled issue events across missing values, negative amounts, category variants, invalid dates, whitespace, invalid claim types and duplicates. The validator detected all events, and the clean fact reconciles to {metrics['claims']:,} unique claims. See [data-quality.md](docs/data-quality.md).
+        Reusable M centralizes UTF-8 CSV loading and schema enforcement. The raw layer contains {metrics['raw_rows']:,} rows and {metrics['seeded_issues']:,} controlled issue events; validation detects every event before the clean build applies explicit corrections and reconciles to {metrics['claims']:,} unique claims. See [Power Query design](docs/power-query.md) and [data-quality evidence](docs/data-quality.md).
 
-        ## How to run
+        ## SQL Analytics
+
+        [`sql/`](sql/) contains six ANSI-oriented modules covering dimensional DDL, validation controls, lifecycle performance, review-capacity prioritization and financial exposure. The examples use CTEs, guarded division, CASE expressions and window functions.
+
+        ## Reproducibility
+
+        The fixed seed `20260831`, project-relative inputs and deterministic scripts reproduce the dataset and source artifacts. Run the pipeline in this order: generate → validate → clean build → project build → QA.
+
+        ## Quality Assurance
+
+        `python scripts/qa_project.py` reruns the full build and tests data grain, controlled defects, financial reconciliation, date semantics, PBIP/PBIR references, TMDL structure, DAX conventions, CI wiring, SQL/Python syntax, internal links, privacy and mockup integrity. The latest evidence is in [qa-report.md](docs/qa-report.md).
+
+        ## Responsible Analytics & Limitations
+
+        Risk scores prioritize human review; they never determine fraud or automate a claim decision. Synthetic targets exist only to demonstrate queue metrics. Reserves are simplified case reserves, RLS is conceptual, and handler views support workload management rather than employee evaluation. See [limitations](docs/limitations.md) and [RLS notes](docs/row-level-security.md).
+
+        ## How to Run
 
         From the repository root:
 
@@ -1809,9 +1849,9 @@ def create_readme(metrics: dict, findings: list[dict], measures: list[dict], rel
         python scripts/qa_project.py
         ```
 
-        Then open [`InsuranceClaimsIntelligence.pbip`](InsuranceClaimsIntelligence.pbip) in a current Power BI Desktop release. If the clone location changed, update the `pProjectRoot` parameter before refresh. Full instructions are in [power-bi-setup.md](docs/power-bi-setup.md).
+        Open [`InsuranceClaimsIntelligence.pbip`](InsuranceClaimsIntelligence.pbip) in a current Power BI Desktop release, set `pProjectRoot` to the clone path, refresh, and complete the Desktop-only rendering and interaction checks in [power-bi-setup.md](docs/power-bi-setup.md).
 
-        ## Repository map
+        ## Repository Structure
 
         ```text
         InsuranceClaimsIntelligence.pbip
@@ -1827,22 +1867,12 @@ def create_readme(metrics: dict, findings: list[dict], measures: list[dict], rel
         theme/                                     Power BI theme JSON
         ```
 
-        ## Limitations and responsible use
-
-        This is synthetic data with a simplified lifecycle and reserve methodology. It is not production-validated, actuarial, causal or representative of real customer behaviour. The risk score is not a fraud determination. RLS is conceptual. Handler analytics are for workload-management demonstration, not employee performance management. Read all [limitations](docs/limitations.md) and [RLS notes](docs/row-level-security.md).
-
-        ## Privacy
-
-        The project contains no real customer, policyholder, claim, employer, user or credential data. Handler and supplier labels are neutral synthetic identifiers. No employer branding appears in the report.
-
-        ## Quality assurance
-
-        The build validates reproducibility, data invariants, issue detection, JSON parsing and schema declarations, TMDL structure, relationship direction, DAX inventory, SQL content, internal links, privacy terms and preview labels. Results are in [qa-report.md](docs/qa-report.md).
-
         ## Author
 
         **Gareth Andrew Mackenzie**<br>
         Johannesburg, South Africa
+
+        `Power BI` · `DAX` · `Power Query` · `TMDL` · `PBIP/PBIR` · `Python` · `SQL` · `Insurance analytics`
 
         Licensed under the [MIT License](LICENSE).
     """)

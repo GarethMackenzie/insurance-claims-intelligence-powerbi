@@ -29,7 +29,7 @@ insurance-claims-intelligence-powerbi/
         ├── DimStatus.csv
         ├── DimSupplier.csv
         ├── FactClaims.csv
-        ├── FraudCapacityScenario.csv
+        ├── ReviewCapacityScenario.csv
     ├── data_quality_issues.csv
     ├── executive_insights.json
     ├── generation_metadata.json

@@ -10,8 +10,8 @@ table Measures
 		formatString: #,0
 		displayFolder: Volume
 
-	/// Claims not in a terminal status.
-	measure 'Open Claims' = CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Status_Key] <= 6 ) )
+	/// Claims in governed open lifecycle statuses.
+	measure 'Open Claims' = CALCULATE ( [Total Claims], KEEPFILTERS ( DimStatus[Open_Status_Flag] = 1 ) )
 		formatString: #,0
 		displayFolder: Volume
 
@@ -135,8 +135,8 @@ table Measures
 		formatString: 0.0
 		displayFolder: Operations
 
-	/// Average age of open claims.
-	measure 'Average Open Age' = CALCULATE ( AVERAGE ( FactClaims[Open_Claim_Age_Days] ), FactClaims[Status_Key] <= 6 )
+	/// Average age of claims in governed open lifecycle statuses.
+	measure 'Average Open Age' = CALCULATE ( AVERAGE ( FactClaims[Open_Claim_Age_Days] ), KEEPFILTERS ( DimStatus[Open_Status_Flag] = 1 ) )
 		formatString: 0.0
 		displayFolder: Operations
 
@@ -238,12 +238,12 @@ table Measures
 		displayFolder: Financial
 
 	/// Open claims aged at least 30 days.
-	measure '30+ Day Open Claims' = CALCULATE ( [Total Claims], FactClaims[Status_Key] <= 6, FactClaims[Open_Claim_Age_Days] >= 30 )
+	measure '30+ Day Open Claims' = CALCULATE ( [Total Claims], KEEPFILTERS ( DimStatus[Open_Status_Flag] = 1 ), KEEPFILTERS ( FactClaims[Open_Claim_Age_Days] >= 30 ) )
 		formatString: #,0
 		displayFolder: Backlog
 
 	/// Open claims aged at least 60 days.
-	measure '60+ Day Open Claims' = CALCULATE ( [Total Claims], FactClaims[Status_Key] <= 6, FactClaims[Open_Claim_Age_Days] >= 60 )
+	measure '60+ Day Open Claims' = CALCULATE ( [Total Claims], KEEPFILTERS ( DimStatus[Open_Status_Flag] = 1 ), KEEPFILTERS ( FactClaims[Open_Claim_Age_Days] >= 60 ) )
 		formatString: #,0
 		displayFolder: Backlog
 
@@ -285,8 +285,8 @@ table Measures
 		formatString: #,0
 		displayFolder: Review Capacity
 
-	/// Synthetic target events in the selected review queue.
-	measure 'Potential Fraud Captured' = ```
+	/// Synthetic demonstration target events in the selected review queue.
+	measure 'Synthetic Targets Captured' = ```
 		VAR Capacity = [Investigation Capacity %]
 		RETURN SUMX ( FILTER ( VALUES ( FactClaims[Claim_ID] ), CALCULATE ( MAX ( FactClaims[Risk_Rank_Percentile] ) ) > 1 - Capacity ), CALCULATE ( MAX ( FactClaims[Synthetic_Fraud_Target_Flag] ) ) )
 	```
@@ -299,17 +299,17 @@ table Measures
 		displayFolder: Review Capacity
 
 	/// Synthetic target events divided by selected claims.
-	measure 'Review Precision' = DIVIDE ( [Potential Fraud Captured], [Claims Selected for Review] )
+	measure 'Review Precision' = DIVIDE ( [Synthetic Targets Captured], [Claims Selected for Review] )
 		formatString: 0.0%
 		displayFolder: Review Capacity
 
-	/// Share of synthetic target events captured by the queue.
-	measure 'Fraud Recall' = DIVIDE ( [Potential Fraud Captured], [Synthetic Target Events] )
+	/// Share of synthetic demonstration target events captured by the queue.
+	measure 'Synthetic Target Recall' = DIVIDE ( [Synthetic Targets Captured], [Synthetic Target Events] )
 		formatString: 0.0%
 		displayFolder: Review Capacity
 
-	/// Selected claims without the synthetic target flag; not real fraud outcomes.
-	measure 'False Positive Rate' = 1 - [Review Precision]
+	/// Selected claims without the synthetic target flag; this is not a real false-positive rate.
+	measure 'Non-Target Review Rate' = 1 - [Review Precision]
 		formatString: 0.0%
 		displayFolder: Review Capacity
 
