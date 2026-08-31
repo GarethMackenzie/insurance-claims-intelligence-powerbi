@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "e9e930e6be29527ca51d",
+  "position": {
+    "x": 795,
+    "y": 130,
+    "z": 12,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 12
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Invalid Date Count"
+                }
+              },
+              "queryRef": "Measures.Invalid Date Count",
+              "nativeQueryRef": "Invalid Date Count"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Invalid Date Count'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

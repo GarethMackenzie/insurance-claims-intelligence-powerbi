@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "8f92473ea86e5088a1bc",
+  "position": {
+    "x": 330,
+    "y": 130,
+    "z": 9,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 9
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Invalid Row Count"
+                }
+              },
+              "queryRef": "Measures.Invalid Row Count",
+              "nativeQueryRef": "Invalid Row Count"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Invalid Row Count'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

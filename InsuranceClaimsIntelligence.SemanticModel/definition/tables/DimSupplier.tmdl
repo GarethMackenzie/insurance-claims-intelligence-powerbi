@@ -1,0 +1,25 @@
+table DimSupplier
+	column Supplier_Key
+		dataType: int64
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: Supplier_Key
+	column Supplier
+		dataType: string
+		sourceColumn: Supplier
+	column Supplier_Type
+		dataType: string
+		sourceColumn: Supplier_Type
+	column Home_Region_Key
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Home_Region_Key
+
+	partition DimSupplier = m
+		mode: import
+		source =
+			fnLoadCsv("data\clean\DimSupplier.csv", type table [Supplier_Key = Int64.Type, Supplier = type text, Supplier_Type = type text, Home_Region_Key = Int64.Type])
+
+	annotation PBI_ResultType = Table

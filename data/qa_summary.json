@@ -1,0 +1,123 @@
+{
+  "checks": 23,
+  "passed": 23,
+  "failed": 0,
+  "status": "PASS",
+  "results": [
+    {
+      "check": "Required file structure",
+      "status": "PASS",
+      "evidence": "All required project, documentation, theme and governance files exist."
+    },
+    {
+      "check": "Reproducible build",
+      "status": "PASS",
+      "evidence": "All four build scripts executed; raw, issue-log and fact SHA-256 hashes are stable."
+    },
+    {
+      "check": "Dataset row counts",
+      "status": "PASS",
+      "evidence": "Raw=75,150; clean FactClaims=75,000."
+    },
+    {
+      "check": "Unique clean claim grain",
+      "status": "PASS",
+      "evidence": "FactClaims is one row per 75,000 unique synthetic Claim_ID values."
+    },
+    {
+      "check": "Controlled issue rate",
+      "status": "PASS",
+      "evidence": "2,150 issue events = 2.87% of canonical claims."
+    },
+    {
+      "check": "Issue detection",
+      "status": "PASS",
+      "evidence": "Seeded=2,150; detected=2,150; detection=100%."
+    },
+    {
+      "check": "Positive amounts",
+      "status": "PASS",
+      "evidence": "All clean Claim_Amount values are positive."
+    },
+    {
+      "check": "Financial reconciliation",
+      "status": "PASS",
+      "evidence": "Maximum |incurred - paid - reserve| = 0.0000."
+    },
+    {
+      "check": "Lifecycle dates",
+      "status": "PASS",
+      "evidence": "Report dates follow loss dates and no clean settlement date is after 2026-08-31."
+    },
+    {
+      "check": "Dimension key integrity",
+      "status": "PASS",
+      "evidence": "No orphan surrogate keys across nine categorical dimensions."
+    },
+    {
+      "check": "JSON syntax",
+      "status": "PASS",
+      "evidence": "Parsed 189 JSON files with UTF-8 decoding."
+    },
+    {
+      "check": "Microsoft schema declarations",
+      "status": "PASS",
+      "evidence": "All PBIP/PBIR semantic-model JSON artifacts declare current Microsoft Fabric schema URLs."
+    },
+    {
+      "check": "Current report schema and theme package",
+      "status": "PASS",
+      "evidence": "Report uses Microsoft report schema 3.2.0 with a matching RegisteredResources custom-theme package."
+    },
+    {
+      "check": "Enhanced PBIR structure",
+      "status": "PASS",
+      "evidence": "8 ordered pages and 168 structurally complete visual containers."
+    },
+    {
+      "check": "TMDL static validation",
+      "status": "PASS",
+      "evidence": "Measures=79; relationships=13; multi-line DAX fences balanced."
+    },
+    {
+      "check": "Relationship direction",
+      "status": "PASS",
+      "evidence": "No bidirectional filter declaration; two role-playing date relationships are explicitly inactive."
+    },
+    {
+      "check": "DAX safety patterns",
+      "status": "PASS",
+      "evidence": "Explicit measure table uses DIVIDE and documented formats; Desktop parsing remains a final host check."
+    },
+    {
+      "check": "SQL analytical coverage",
+      "status": "PASS",
+      "evidence": "Six SQL modules include CTEs, CASE, views and window functions."
+    },
+    {
+      "check": "Python syntax",
+      "status": "PASS",
+      "evidence": "All project Python scripts compile successfully."
+    },
+    {
+      "check": "Internal links",
+      "status": "PASS",
+      "evidence": "Zero broken internal Markdown links."
+    },
+    {
+      "check": "Privacy and neutral branding",
+      "status": "PASS",
+      "evidence": "No named employer branding appears in project text; all claim, policy, handler and supplier data is synthetic."
+    },
+    {
+      "check": "Preview asset integrity",
+      "status": "PASS",
+      "evidence": "Eight 1600\u00d7900 PNG assets are explicitly labelled DESIGN MOCKUP; no screenshot claim is made."
+    },
+    {
+      "check": "Repository credibility",
+      "status": "PASS",
+      "evidence": "No lorem ipsum, coming-soon copy or placeholder-junk files."
+    }
+  ]
+}

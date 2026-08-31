@@ -1,0 +1,10 @@
+Status_Key,Claim_Status,Stage_Group,Status_Order,Open_Status_Flag
+1,Open,Intake,1,1
+2,Assessment,Assessment,2,1
+3,Awaiting Documents,Documentation,3,1
+4,Awaiting Supplier,Supplier,4,1
+5,Under Investigation,Investigation,5,1
+6,Approved,Decision,6,1
+7,Settled,Complete,7,0
+8,Rejected,Complete,8,0
+9,Closed,Complete,9,0

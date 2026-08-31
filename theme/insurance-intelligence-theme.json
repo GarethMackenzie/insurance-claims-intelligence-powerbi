@@ -1,0 +1,102 @@
+{
+  "name": "Insurance Claims Intelligence",
+  "dataColors": [
+    "#2EC4B6",
+    "#3F7CAC",
+    "#F4A261",
+    "#E8654F",
+    "#5E81AC",
+    "#88C0D0"
+  ],
+  "background": "#0A1622",
+  "foreground": "#EAF2F8",
+  "tableAccent": "#2EC4B6",
+  "good": "#2EC4B6",
+  "neutral": "#F4A261",
+  "bad": "#E8654F",
+  "textClasses": {
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 15,
+      "color": "#EAF2F8"
+    },
+    "header": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 11,
+      "color": "#EAF2F8"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "fontSize": 10,
+      "color": "#7E93A8"
+    },
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 24,
+      "color": "#EAF2F8"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#132840"
+              }
+            },
+            "transparency": 2
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#254763"
+              }
+            },
+            "radius": 8
+          }
+        ],
+        "title": [
+          {
+            "show": true,
+            "fontFace": "Segoe UI Semibold",
+            "fontSize": 11,
+            "fontColor": {
+              "solid": {
+                "color": "#EAF2F8"
+              }
+            }
+          }
+        ],
+        "visualHeader": [
+          {
+            "show": true,
+            "foreground": {
+              "solid": {
+                "color": "#7E93A8"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#0A1622"
+              }
+            },
+            "transparency": 0
+          }
+        ]
+      }
+    }
+  }
+}

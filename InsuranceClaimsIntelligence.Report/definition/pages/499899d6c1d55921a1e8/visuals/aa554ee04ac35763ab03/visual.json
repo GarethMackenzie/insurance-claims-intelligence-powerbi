@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "aa554ee04ac35763ab03",
+  "position": {
+    "x": 795,
+    "y": 130,
+    "z": 12,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 12
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Fraud Referral Rate %"
+                }
+              },
+              "queryRef": "Measures.Fraud Referral Rate %",
+              "nativeQueryRef": "Fraud Referral Rate %"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Fraud Referral Rate %'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

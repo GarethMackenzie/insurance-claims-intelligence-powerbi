@@ -1,0 +1,12 @@
+{
+  "synthetic": true,
+  "seed": 20260831,
+  "as_of_date": "2026-08-31",
+  "canonical_claims": 75000,
+  "raw_rows": 75150,
+  "seeded_issue_events": 2150,
+  "seeded_rows": 2150,
+  "quality_issue_rate_vs_claims": 0.028667,
+  "date_min": "2024-01-01",
+  "date_max": "2026-08-31"
+}

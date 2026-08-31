@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "b1c01cea619551b0bf43",
+  "position": {
+    "x": 1105,
+    "y": 130,
+    "z": 14,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 14
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Detected Data Quality Issues"
+                }
+              },
+              "queryRef": "Measures.Detected Data Quality Issues",
+              "nativeQueryRef": "Detected Data Quality Issues"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Detected Data Quality Issues'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

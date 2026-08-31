@@ -1,0 +1,10 @@
+{
+  "tables": 15,
+  "physical_dimensions": 10,
+  "relationships": 13,
+  "dax_measures": 79,
+  "report_pages": 8,
+  "visual_containers": 168,
+  "documented_fields": 110,
+  "design_mockups": 8
+}

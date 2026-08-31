@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "ccbdc2e5e4f3568793c7",
+  "position": {
+    "x": 560,
+    "y": 84,
+    "z": 6,
+    "height": 38,
+    "width": 165,
+    "tabOrder": 6
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimRisk"
+                    }
+                  },
+                  "Property": "Risk_Band"
+                }
+              },
+              "queryRef": "DimRisk.Risk_Band",
+              "nativeQueryRef": "Risk_Band"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Risk'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

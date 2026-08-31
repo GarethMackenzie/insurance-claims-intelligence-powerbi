@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "1c8d76d807f9559fbc9f",
+  "position": {
+    "x": 175,
+    "y": 130,
+    "z": 8,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 8
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Median Settlement Days"
+                }
+              },
+              "queryRef": "Measures.Median Settlement Days",
+              "nativeQueryRef": "Median Settlement Days"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Median Settlement Days'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

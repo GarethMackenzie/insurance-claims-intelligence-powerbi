@@ -1,0 +1,24 @@
+table DimSeverity
+	column Severity_Key
+		dataType: int64
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: Severity_Key
+	column Severity_Band
+		dataType: string
+		sourceColumn: Severity_Band
+	column Severity_Order
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Severity_Order
+	column Definition
+		dataType: string
+		sourceColumn: Definition
+
+	partition DimSeverity = m
+		mode: import
+		source =
+			fnLoadCsv("data\clean\DimSeverity.csv", type table [Severity_Key = Int64.Type, Severity_Band = type text, Severity_Order = Int64.Type, Definition = type text])
+
+	annotation PBI_ResultType = Table

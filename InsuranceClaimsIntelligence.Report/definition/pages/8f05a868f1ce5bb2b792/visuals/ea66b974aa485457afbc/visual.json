@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "ea66b974aa485457afbc",
+  "position": {
+    "x": 20,
+    "y": 458,
+    "z": 18,
+    "height": 190,
+    "width": 395,
+    "tabOrder": 18
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactClaims"
+                    }
+                  },
+                  "Property": "Reporting_Delay_Days"
+                }
+              },
+              "queryRef": "FactClaims.Reporting_Delay_Days",
+              "nativeQueryRef": "Reporting_Delay_Days"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Fraud Referral Rate %"
+                }
+              },
+              "queryRef": "Measures.Fraud Referral Rate %",
+              "nativeQueryRef": "Fraud Referral Rate %"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Risk vs reporting delay'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

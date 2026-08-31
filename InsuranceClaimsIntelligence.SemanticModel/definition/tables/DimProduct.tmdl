@@ -1,0 +1,23 @@
+table DimProduct
+	column Product_Key
+		dataType: int64
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: Product_Key
+	column Product
+		dataType: string
+		sourceColumn: Product
+	column Product_Description
+		dataType: string
+		sourceColumn: Product_Description
+	column Portfolio
+		dataType: string
+		sourceColumn: Portfolio
+
+	partition DimProduct = m
+		mode: import
+		source =
+			fnLoadCsv("data\clean\DimProduct.csv", type table [Product_Key = Int64.Type, Product = type text, Product_Description = type text, Portfolio = type text])
+
+	annotation PBI_ResultType = Table

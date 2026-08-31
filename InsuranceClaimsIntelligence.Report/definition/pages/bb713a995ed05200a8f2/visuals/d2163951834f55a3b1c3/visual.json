@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "d2163951834f55a3b1c3",
+  "position": {
+    "x": 435,
+    "y": 250,
+    "z": 16,
+    "height": 190,
+    "width": 395,
+    "tabOrder": 16
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDate"
+                    }
+                  },
+                  "Property": "Year_Month"
+                }
+              },
+              "queryRef": "DimDate.Year_Month",
+              "nativeQueryRef": "Year_Month"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Total Incurred"
+                }
+              },
+              "queryRef": "Measures.Total Incurred",
+              "nativeQueryRef": "Total Incurred"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Cost trend'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

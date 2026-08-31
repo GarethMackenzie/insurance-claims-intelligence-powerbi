@@ -1,0 +1,5 @@
+Channel_Key,Channel,Channel_Group
+1,Broker,Intermediated
+2,Direct,Direct
+3,Digital,Self-service
+4,Call Centre,Assisted

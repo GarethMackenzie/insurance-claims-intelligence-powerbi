@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "d1a24998b3a45280bc36",
+  "position": {
+    "x": 850,
+    "y": 250,
+    "z": 17,
+    "height": 190,
+    "width": 395,
+    "tabOrder": 17
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimHandler"
+                    }
+                  },
+                  "Property": "Handler"
+                }
+              },
+              "queryRef": "DimHandler.Handler",
+              "nativeQueryRef": "Handler"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Handler Quality Index"
+                }
+              },
+              "queryRef": "Measures.Handler Quality Index",
+              "nativeQueryRef": "Handler Quality Index"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Quality by handler'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

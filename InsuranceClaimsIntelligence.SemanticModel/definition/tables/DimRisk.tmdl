@@ -1,0 +1,24 @@
+table DimRisk
+	column Risk_Key
+		dataType: int64
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: Risk_Key
+	column Risk_Band
+		dataType: string
+		sourceColumn: Risk_Band
+	column Risk_Order
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Risk_Order
+	column Definition
+		dataType: string
+		sourceColumn: Definition
+
+	partition DimRisk = m
+		mode: import
+		source =
+			fnLoadCsv("data\clean\DimRisk.csv", type table [Risk_Key = Int64.Type, Risk_Band = type text, Risk_Order = Int64.Type, Definition = type text])
+
+	annotation PBI_ResultType = Table

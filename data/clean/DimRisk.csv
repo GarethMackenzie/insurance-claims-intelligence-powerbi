@@ -1,0 +1,5 @@
+Risk_Key,Risk_Band,Risk_Order,Definition
+1,Low,1,Below 30
+2,Moderate,2,30–54.9
+3,High,3,55–74.9
+4,Critical,4,75 and above

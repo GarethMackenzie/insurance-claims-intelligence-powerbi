@@ -1,0 +1,38 @@
+expression pProjectRoot = "C:\Users\gmackenz\Documents\ChatGPT\Assignment\insurance-claims-intelligence-powerbi" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+    lineageTag: 4e6c58ca-c05e-5b51-8965-11195f66ad7b
+
+expression fnLoadCsv = ```
+        (relativePath as text, tableType as type) as table =>
+        let
+            FullPath = pProjectRoot & "\" & relativePath,
+            Source = Csv.Document(File.Contents(FullPath), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+            PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+            TypeRecord = Type.RecordFields(Type.TableRow(tableType)),
+            Transformations = List.Transform(Record.FieldNames(TypeRecord), (columnName) => {columnName, Record.Field(TypeRecord, columnName)[Type]}),
+            Typed = Table.TransformColumnTypes(PromotedHeaders, Transformations)
+        in
+            Typed
+    ```
+    lineageTag: 7d0d4c5b-753c-58f0-ba46-60488be0f74b
+
+expression stg_ClaimsRaw = ```
+        let
+            Source = Csv.Document(File.Contents(pProjectRoot & "\data\raw\claims_raw.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+            PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+            TrimmedText = Table.TransformColumns(PromotedHeaders, List.Transform(Table.ColumnsOfType(PromotedHeaders, {type text}), each {_, Text.Trim, type text})),
+            DuplicateFlag = Table.AddColumn(TrimmedText, "Duplicate_Flag", each if Table.RowCount(Table.SelectRows(TrimmedText, (r) => r[Claim_ID] = [Claim_ID])) > 1 then 1 else 0, Int64.Type)
+        in
+            DuplicateFlag
+    ```
+    lineageTag: dd5ec146-2a9c-553d-9cd0-e26821b2b40d
+
+expression stg_ClaimsClean = ```
+        let
+            Source = fnLoadCsv("data\clean\FactClaims.csv", type table [Claim_ID=text, Policy_ID=text, Loss_Date=date, Report_Date=date, Claim_Amount=Currency.Type, Total_Incurred=Currency.Type]),
+            ValidAmounts = Table.SelectRows(Source, each [Claim_Amount] > 0),
+            ValidDates = Table.SelectRows(ValidAmounts, each [Report_Date] >= [Loss_Date]),
+            UniqueClaims = Table.Distinct(ValidDates, {"Claim_ID"})
+        in
+            UniqueClaims
+    ```
+    lineageTag: 8501f69e-47f1-5d23-aa99-5fe627c4533e

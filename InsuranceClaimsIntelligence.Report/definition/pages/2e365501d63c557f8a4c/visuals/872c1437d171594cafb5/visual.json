@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "872c1437d171594cafb5",
+  "position": {
+    "x": 20,
+    "y": 52,
+    "z": 2,
+    "height": 28,
+    "width": 1240,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "OVERVIEW   OPERATIONS   RISK   FINANCIAL   REGIONAL   HANDLERS   ROOT CAUSE   DATA QUALITY"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

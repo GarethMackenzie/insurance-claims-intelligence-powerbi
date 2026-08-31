@@ -1,0 +1,27 @@
+table DimHandler
+	column Handler_Key
+		dataType: int64
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: Handler_Key
+	column Handler
+		dataType: string
+		sourceColumn: Handler
+	column Team
+		dataType: string
+		sourceColumn: Team
+	column Experience_Band
+		dataType: string
+		sourceColumn: Experience_Band
+	column Monthly_Capacity
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Monthly_Capacity
+
+	partition DimHandler = m
+		mode: import
+		source =
+			fnLoadCsv("data\clean\DimHandler.csv", type table [Handler_Key = Int64.Type, Handler = type text, Team = type text, Experience_Band = type text, Monthly_Capacity = Int64.Type])
+
+	annotation PBI_ResultType = Table

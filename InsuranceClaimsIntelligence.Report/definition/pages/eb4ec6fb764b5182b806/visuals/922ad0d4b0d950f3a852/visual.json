@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "922ad0d4b0d950f3a852",
+  "position": {
+    "x": 175,
+    "y": 130,
+    "z": 8,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 8
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Total Incurred"
+                }
+              },
+              "queryRef": "Measures.Total Incurred",
+              "nativeQueryRef": "Total Incurred"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Total Incurred'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

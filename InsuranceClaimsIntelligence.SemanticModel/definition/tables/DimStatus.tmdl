@@ -1,0 +1,28 @@
+table DimStatus
+	column Status_Key
+		dataType: int64
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: Status_Key
+	column Claim_Status
+		dataType: string
+		sourceColumn: Claim_Status
+	column Stage_Group
+		dataType: string
+		sourceColumn: Stage_Group
+	column Status_Order
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Status_Order
+	column Open_Status_Flag
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Open_Status_Flag
+
+	partition DimStatus = m
+		mode: import
+		source =
+			fnLoadCsv("data\clean\DimStatus.csv", type table [Status_Key = Int64.Type, Claim_Status = type text, Stage_Group = type text, Status_Order = Int64.Type, Open_Status_Flag = Int64.Type])
+
+	annotation PBI_ResultType = Table

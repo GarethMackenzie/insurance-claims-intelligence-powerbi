@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "1845b35ebbd15172a02d",
+  "position": {
+    "x": 1105,
+    "y": 130,
+    "z": 14,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 14
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Large Loss Exposure"
+                }
+              },
+              "queryRef": "Measures.Large Loss Exposure",
+              "nativeQueryRef": "Large Loss Exposure"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Large Loss Exposure'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "661eb9eb2d6859b093c2",
+  "position": {
+    "x": 20,
+    "y": 250,
+    "z": 15,
+    "height": 190,
+    "width": 395,
+    "tabOrder": 15
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DataQualityIssues"
+                    }
+                  },
+                  "Property": "Issue_Type"
+                }
+              },
+              "queryRef": "DataQualityIssues.Issue_Type",
+              "nativeQueryRef": "Issue_Type"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Detected Data Quality Issues"
+                }
+              },
+              "queryRef": "Measures.Detected Data Quality Issues",
+              "nativeQueryRef": "Detected Data Quality Issues"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Issues by category'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

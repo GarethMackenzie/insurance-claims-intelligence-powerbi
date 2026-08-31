@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "6da09b2a71125b919342",
+  "position": {
+    "x": 1105,
+    "y": 130,
+    "z": 14,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 14
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "60+ Day Open Claims"
+                }
+              },
+              "queryRef": "Measures.60+ Day Open Claims",
+              "nativeQueryRef": "60+ Day Open Claims"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'60+ Day Open Claims'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

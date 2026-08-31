@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "3fb54aa3b6835a94a31e",
+  "position": {
+    "x": 20,
+    "y": 458,
+    "z": 18,
+    "height": 190,
+    "width": 395,
+    "tabOrder": 18
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimHandler"
+                    }
+                  },
+                  "Property": "Handler"
+                }
+              },
+              "queryRef": "DimHandler.Handler",
+              "nativeQueryRef": "Handler"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Handler Complexity Index"
+                }
+              },
+              "queryRef": "Measures.Handler Complexity Index",
+              "nativeQueryRef": "Handler Complexity Index"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Complexity-adjusted exposure'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

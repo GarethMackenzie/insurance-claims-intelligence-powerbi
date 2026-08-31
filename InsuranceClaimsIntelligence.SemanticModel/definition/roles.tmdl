@@ -1,0 +1,8 @@
+role Executive
+    modelPermission: read
+
+role 'Regional Manager'
+    modelPermission: read
+
+    tablePermission DimRegion =
+            DimRegion[Region] IN { "Gauteng", "Western Cape", "KwaZulu-Natal" }

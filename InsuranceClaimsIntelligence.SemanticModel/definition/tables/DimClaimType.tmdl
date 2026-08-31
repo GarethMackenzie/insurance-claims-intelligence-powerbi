@@ -1,0 +1,20 @@
+table DimClaimType
+	column Claim_Type_Key
+		dataType: int64
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: Claim_Type_Key
+	column Claim_Type
+		dataType: string
+		sourceColumn: Claim_Type
+	column Cause_Group
+		dataType: string
+		sourceColumn: Cause_Group
+
+	partition DimClaimType = m
+		mode: import
+		source =
+			fnLoadCsv("data\clean\DimClaimType.csv", type table [Claim_Type_Key = Int64.Type, Claim_Type = type text, Cause_Group = type text])
+
+	annotation PBI_ResultType = Table

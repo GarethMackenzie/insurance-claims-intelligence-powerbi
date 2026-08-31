@@ -1,0 +1,13 @@
+table 'Investigation Capacity'
+    column 'Investigation Capacity'
+        dataType: int64
+        isKey
+        formatString: 0"%"
+        summarizeBy: none
+        sourceColumn: [Value]
+
+    partition 'Investigation Capacity' = calculated
+        mode: import
+        source = GENERATESERIES ( 5, 20, 5 )
+
+    annotation PBI_ResultType = Table

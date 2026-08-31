@@ -1,0 +1,10 @@
+Claim_Type_Key,Claim_Type,Cause_Group
+1,Collision,General
+2,Theft,General
+3,Weather,Weather-related
+4,Fire,General
+5,Liability,General
+6,Glass,General
+7,Hail,Weather-related
+8,Flood,Weather-related
+9,Accidental Damage,General

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "533e1818d90b5b8ea5c6",
+  "position": {
+    "x": 950,
+    "y": 130,
+    "z": 13,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 13
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Complaint Rate %"
+                }
+              },
+              "queryRef": "Measures.Complaint Rate %",
+              "nativeQueryRef": "Complaint Rate %"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Complaint Rate %'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

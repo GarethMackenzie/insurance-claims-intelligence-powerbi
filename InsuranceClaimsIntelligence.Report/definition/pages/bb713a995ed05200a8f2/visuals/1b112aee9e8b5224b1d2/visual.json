@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "1b112aee9e8b5224b1d2",
+  "position": {
+    "x": 20,
+    "y": 250,
+    "z": 15,
+    "height": 190,
+    "width": 395,
+    "tabOrder": 15
+  },
+  "visual": {
+    "visualType": "waterfallChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimClaimType"
+                    }
+                  },
+                  "Property": "Claim_Type"
+                }
+              },
+              "queryRef": "DimClaimType.Claim_Type",
+              "nativeQueryRef": "Claim_Type"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Total Incurred"
+                }
+              },
+              "queryRef": "Measures.Total Incurred",
+              "nativeQueryRef": "Total Incurred"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Incurred movement by claim type'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

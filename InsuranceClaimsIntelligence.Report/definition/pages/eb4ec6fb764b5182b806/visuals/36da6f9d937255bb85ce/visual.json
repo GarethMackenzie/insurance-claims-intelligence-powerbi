@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "36da6f9d937255bb85ce",
+  "position": {
+    "x": 795,
+    "y": 130,
+    "z": 12,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 12
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Average Settlement Days"
+                }
+              },
+              "queryRef": "Measures.Average Settlement Days",
+              "nativeQueryRef": "Average Settlement Days"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Average Settlement Days'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

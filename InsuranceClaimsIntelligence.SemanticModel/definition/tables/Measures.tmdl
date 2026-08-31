@@ -1,0 +1,437 @@
+table Measures
+	column Value
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Value
+
+	/// Distinct synthetic claims in filter context.
+	measure 'Total Claims' = DISTINCTCOUNT ( FactClaims[Claim_ID] )
+		formatString: #,0
+		displayFolder: Volume
+
+	/// Claims not in a terminal status.
+	measure 'Open Claims' = CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Status_Key] <= 6 ) )
+		formatString: #,0
+		displayFolder: Volume
+
+	/// Claims in Settled status.
+	measure 'Settled Claims' = CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Status_Key] = 7 ) )
+		formatString: #,0
+		displayFolder: Volume
+
+	/// Claims in Rejected status.
+	measure 'Rejected Claims' = CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Status_Key] = 8 ) )
+		formatString: #,0
+		displayFolder: Volume
+
+	/// Claim frequency proxy for the synthetic portfolio.
+	measure 'Claims per Policy' = DIVIDE ( [Total Claims], DISTINCTCOUNT ( FactClaims[Policy_ID] ) )
+		formatString: 0.00
+		displayFolder: Volume
+
+	/// Gross synthetic claimed amount.
+	measure 'Total Claim Amount' = SUM ( FactClaims[Claim_Amount] )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Financial
+
+	/// Approved synthetic amount.
+	measure 'Total Approved' = SUM ( FactClaims[Approved_Amount] )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Financial
+
+	/// Paid synthetic amount.
+	measure 'Total Paid' = SUM ( FactClaims[Paid_Amount] )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Financial
+
+	/// Outstanding simplified case reserve.
+	measure 'Outstanding Reserve' = SUM ( FactClaims[Reserve_Amount] )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Financial
+
+	/// Paid plus outstanding reserve; not an actuarial estimate.
+	measure 'Total Incurred' = SUM ( FactClaims[Total_Incurred] )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Financial
+
+	/// Mean synthetic claim amount.
+	measure 'Average Severity' = AVERAGE ( FactClaims[Claim_Amount] )
+		formatString: R #,##0.00;[Red]-R #,##0.00;R 0.00
+		displayFolder: Severity
+
+	/// Median synthetic claim amount.
+	measure 'Median Severity' = MEDIAN ( FactClaims[Claim_Amount] )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Severity
+
+	/// 90th percentile synthetic claim amount.
+	measure 'P90 Severity' = PERCENTILEX.INC ( FactClaims, FactClaims[Claim_Amount], 0.9 )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Severity
+
+	/// Average reporting-to-settlement days for settled claims.
+	measure 'Average Settlement Days' = AVERAGE ( FactClaims[Settlement_Days] )
+		formatString: 0.0
+		displayFolder: Operations
+
+	/// Median reporting-to-settlement days.
+	measure 'Median Settlement Days' = MEDIAN ( FactClaims[Settlement_Days] )
+		formatString: 0
+		displayFolder: Operations
+
+	/// 90th percentile reporting-to-settlement days.
+	measure '90th Percentile Settlement Days' = PERCENTILEX.INC ( FILTER ( FactClaims, NOT ISBLANK ( FactClaims[Settlement_Days] ) ), FactClaims[Settlement_Days], 0.9 )
+		formatString: 0
+		displayFolder: Operations
+
+	/// Share of claims within the simulated complexity-based SLA.
+	measure 'SLA Compliance %' = DIVIDE ( SUM ( FactClaims[SLA_Met_Flag] ), [Total Claims] )
+		formatString: 0.0%
+		displayFolder: Service
+
+	/// Share of claims marked reopened.
+	measure 'Reopen Rate %' = DIVIDE ( SUM ( FactClaims[Reopened_Flag] ), [Total Claims] )
+		formatString: 0.0%
+		displayFolder: Quality
+
+	/// Share of claims with a simulated complaint flag.
+	measure 'Complaint Rate %' = DIVIDE ( SUM ( FactClaims[Complaint_Flag] ), [Total Claims] )
+		formatString: 0.0%
+		displayFolder: Quality
+
+	/// Share referred for review; referral does not determine fraud.
+	measure 'Fraud Referral Rate %' = DIVIDE ( SUM ( FactClaims[Fraud_Referral_Flag] ), [Total Claims] )
+		formatString: 0.0%
+		displayFolder: Risk
+
+	/// Claims in High or Critical synthetic risk bands.
+	measure 'High Risk Claims' = CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Risk_Key] >= 3 ) )
+		formatString: #,0
+		displayFolder: Risk
+
+	/// High/Critical risk share.
+	measure 'High Risk Claims %' = DIVIDE ( [High Risk Claims], [Total Claims] )
+		formatString: 0.0%
+		displayFolder: Risk
+
+	/// Handlers represented by filtered claims.
+	measure 'Active Handlers' = DISTINCTCOUNT ( FactClaims[Handler_Key] )
+		formatString: #,0
+		displayFolder: Workload
+
+	/// Filtered claims per active handler.
+	measure 'Claims Per Handler' = DIVIDE ( [Total Claims], [Active Handlers] )
+		formatString: 0.0
+		displayFolder: Workload
+
+	/// Open filtered workload per active handler.
+	measure 'Open Claims Per Handler' = DIVIDE ( [Open Claims], [Active Handlers] )
+		formatString: 0.0
+		displayFolder: Workload
+
+	/// Average days from loss to report.
+	measure 'Average Reporting Delay' = AVERAGE ( FactClaims[Reporting_Delay_Days] )
+		formatString: 0.0
+		displayFolder: Operations
+
+	/// Average age of open claims.
+	measure 'Average Open Age' = CALCULATE ( AVERAGE ( FactClaims[Open_Claim_Age_Days] ), FactClaims[Status_Key] <= 6 )
+		formatString: 0.0
+		displayFolder: Operations
+
+	/// Month-to-date claims by loss date.
+	measure 'Claims MTD' = CALCULATE ( [Total Claims], DATESMTD ( DimDate[Date] ) )
+		formatString: #,0
+		displayFolder: Time Intelligence
+
+	/// Quarter-to-date claims by loss date.
+	measure 'Claims QTD' = CALCULATE ( [Total Claims], DATESQTD ( DimDate[Date] ) )
+		formatString: #,0
+		displayFolder: Time Intelligence
+
+	/// Year-to-date claims by loss date.
+	measure 'Claims YTD' = CALCULATE ( [Total Claims], DATESYTD ( DimDate[Date] ) )
+		formatString: #,0
+		displayFolder: Time Intelligence
+
+	/// Claims in the prior-year comparison period.
+	measure 'Claims PY' = CALCULATE ( [Total Claims], DATEADD ( DimDate[Date], -1, YEAR ) )
+		formatString: #,0
+		displayFolder: Time Intelligence
+
+	/// Year-over-year claims-volume change.
+	measure 'Claims YoY %' = ```
+		VAR CurrentValue = [Total Claims]
+		VAR PriorValue = [Claims PY]
+		RETURN DIVIDE ( CurrentValue - PriorValue, PriorValue )
+	```
+		formatString: 0.0%
+		displayFolder: Time Intelligence
+
+	/// Month-to-date incurred.
+	measure 'Incurred MTD' = CALCULATE ( [Total Incurred], DATESMTD ( DimDate[Date] ) )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Time Intelligence
+
+	/// Year-to-date incurred.
+	measure 'Incurred YTD' = CALCULATE ( [Total Incurred], DATESYTD ( DimDate[Date] ) )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Time Intelligence
+
+	/// Prior-year incurred comparison.
+	measure 'Incurred PY' = CALCULATE ( [Total Incurred], DATEADD ( DimDate[Date], -1, YEAR ) )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Time Intelligence
+
+	/// Year-over-year incurred change.
+	measure 'Incurred YoY %' = ```
+		VAR CurrentValue = [Total Incurred]
+		VAR PriorValue = [Incurred PY]
+		RETURN DIVIDE ( CurrentValue - PriorValue, PriorValue )
+	```
+		formatString: 0.0%
+		displayFolder: Time Intelligence
+
+	/// Prior-year average severity.
+	measure 'Severity PY' = CALCULATE ( [Average Severity], DATEADD ( DimDate[Date], -1, YEAR ) )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Time Intelligence
+
+	/// Year-over-year average severity change.
+	measure 'Severity YoY %' = ```
+		VAR CurrentValue = [Average Severity]
+		VAR PriorValue = [Severity PY]
+		RETURN DIVIDE ( CurrentValue - PriorValue, PriorValue )
+	```
+		formatString: 0.0%
+		displayFolder: Time Intelligence
+
+	/// Prior-year SLA compliance.
+	measure 'SLA Compliance PY' = CALCULATE ( [SLA Compliance %], DATEADD ( DimDate[Date], -1, YEAR ) )
+		formatString: 0.0%
+		displayFolder: Time Intelligence
+
+	/// Percentage-point SLA change versus prior year.
+	measure 'SLA Variance vs PY' = 100 * ( [SLA Compliance %] - [SLA Compliance PY] )
+		formatString: 0.0 pp
+		displayFolder: Time Intelligence
+
+	/// Claims over the rolling 12 months ending in context.
+	measure 'Rolling 12M Claims' = CALCULATE ( [Total Claims], DATESINPERIOD ( DimDate[Date], MAX ( DimDate[Date] ), -12, MONTH ) )
+		formatString: #,0
+		displayFolder: Time Intelligence
+
+	/// Incurred over the rolling 12 months ending in context.
+	measure 'Rolling 12M Incurred' = CALCULATE ( [Total Incurred], DATESINPERIOD ( DimDate[Date], MAX ( DimDate[Date] ), -12, MONTH ) )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Time Intelligence
+
+	/// Claims at or above R250,000.
+	measure 'Large Loss Count' = CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Claim_Amount] >= 250000 ) )
+		formatString: #,0
+		displayFolder: Financial
+
+	/// Incurred exposure from large losses.
+	measure 'Large Loss Exposure' = CALCULATE ( [Total Incurred], KEEPFILTERS ( FactClaims[Claim_Amount] >= 250000 ) )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Financial
+
+	/// Open claims aged at least 30 days.
+	measure '30+ Day Open Claims' = CALCULATE ( [Total Claims], FactClaims[Status_Key] <= 6, FactClaims[Open_Claim_Age_Days] >= 30 )
+		formatString: #,0
+		displayFolder: Backlog
+
+	/// Open claims aged at least 60 days.
+	measure '60+ Day Open Claims' = CALCULATE ( [Total Claims], FactClaims[Status_Key] <= 6, FactClaims[Open_Claim_Age_Days] >= 60 )
+		formatString: #,0
+		displayFolder: Backlog
+
+	/// Share of open claims aged at least 30 days.
+	measure 'Backlog %' = DIVIDE ( [30+ Day Open Claims], [Open Claims] )
+		formatString: 0.0%
+		displayFolder: Backlog
+
+	/// Claims awaiting documentation.
+	measure 'Awaiting Documents Claims' = CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Status_Key] = 3 ) )
+		formatString: #,0
+		displayFolder: Backlog
+
+	/// Claims awaiting supplier activity.
+	measure 'Awaiting Supplier Claims' = CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Status_Key] = 4 ) )
+		formatString: #,0
+		displayFolder: Backlog
+
+	/// Claims in the investigation queue.
+	measure 'Under Investigation Claims' = CALCULATE ( [Total Claims], KEEPFILTERS ( FactClaims[Status_Key] = 5 ) )
+		formatString: #,0
+		displayFolder: Risk
+
+	/// Outstanding reserve per open claim.
+	measure 'Reserve per Open Claim' = DIVIDE ( [Outstanding Reserve], [Open Claims] )
+		formatString: R #,##0;[Red]-R #,##0;R 0
+		displayFolder: Financial
+
+	/// Selected proportion of claims that the review team can investigate.
+	measure 'Investigation Capacity %' = DIVIDE ( SELECTEDVALUE ( 'Investigation Capacity'[Investigation Capacity], 10 ), 100 )
+		formatString: 0.0%
+		displayFolder: Review Capacity
+
+	/// Claims in the highest risk-score percentile within selected capacity.
+	measure 'Claims Selected for Review' = ```
+		VAR Capacity = [Investigation Capacity %]
+		RETURN COUNTROWS ( FILTER ( VALUES ( FactClaims[Claim_ID] ), CALCULATE ( MAX ( FactClaims[Risk_Rank_Percentile] ) ) > 1 - Capacity ) )
+	```
+		formatString: #,0
+		displayFolder: Review Capacity
+
+	/// Synthetic target events in the selected review queue.
+	measure 'Potential Fraud Captured' = ```
+		VAR Capacity = [Investigation Capacity %]
+		RETURN SUMX ( FILTER ( VALUES ( FactClaims[Claim_ID] ), CALCULATE ( MAX ( FactClaims[Risk_Rank_Percentile] ) ) > 1 - Capacity ), CALCULATE ( MAX ( FactClaims[Synthetic_Fraud_Target_Flag] ) ) )
+	```
+		formatString: #,0
+		displayFolder: Review Capacity
+
+	/// Synthetic binary target used only to demonstrate prioritization metrics.
+	measure 'Synthetic Target Events' = SUM ( FactClaims[Synthetic_Fraud_Target_Flag] )
+		formatString: #,0
+		displayFolder: Review Capacity
+
+	/// Synthetic target events divided by selected claims.
+	measure 'Review Precision' = DIVIDE ( [Potential Fraud Captured], [Claims Selected for Review] )
+		formatString: 0.0%
+		displayFolder: Review Capacity
+
+	/// Share of synthetic target events captured by the queue.
+	measure 'Fraud Recall' = DIVIDE ( [Potential Fraud Captured], [Synthetic Target Events] )
+		formatString: 0.0%
+		displayFolder: Review Capacity
+
+	/// Selected claims without the synthetic target flag; not real fraud outcomes.
+	measure 'False Positive Rate' = 1 - [Review Precision]
+		formatString: 0.0%
+		displayFolder: Review Capacity
+
+	/// Selected investigation queue volume.
+	measure 'Review Workload' = [Claims Selected for Review]
+		formatString: #,0
+		displayFolder: Review Capacity
+
+	/// Portfolio-wide synthetic target rate.
+	measure 'Base Synthetic Target Rate' = DIVIDE ( [Synthetic Target Events], [Total Claims] )
+		formatString: 0.0%
+		displayFolder: Review Capacity
+
+	/// Review precision divided by the portfolio target rate.
+	measure 'Lift vs Random Review' = DIVIDE ( [Review Precision], [Base Synthetic Target Rate] )
+		formatString: 0.00×
+		displayFolder: Review Capacity
+
+	/// Detected raw-data issue events.
+	measure 'Detected Data Quality Issues' = COUNTROWS ( DataQualityIssues )
+		formatString: #,0
+		displayFolder: Data Quality
+
+	/// Distinct claims affected by a detected raw-data issue.
+	measure 'Invalid Row Count' = DISTINCTCOUNT ( DataQualityIssues[Claim_ID] )
+		formatString: #,0
+		displayFolder: Data Quality
+
+	/// Rows in the generated raw extract, including controlled duplicates.
+	measure 'Raw Rows' = 75150
+		formatString: #,0
+		displayFolder: Data Quality
+
+	/// Duplicate issue events divided by raw rows.
+	measure 'Duplicate Rate' = DIVIDE ( CALCULATE ( [Detected Data Quality Issues], DataQualityIssues[Issue_Type] = "Duplicate Row" ), [Raw Rows] )
+		formatString: 0.0%
+		displayFolder: Data Quality
+
+	/// Missing-region issue events divided by raw rows.
+	measure 'Missing Region %' = DIVIDE ( CALCULATE ( [Detected Data Quality Issues], DataQualityIssues[Issue_Type] = "Missing Region" ), [Raw Rows] )
+		formatString: 0.0%
+		displayFolder: Data Quality
+
+	/// Missing or negative claim-amount issues.
+	measure 'Invalid Amount Count' = CALCULATE ( [Detected Data Quality Issues], DataQualityIssues[Issue_Type] IN { "Missing Claim Amount", "Negative Claim Amount" } )
+		formatString: #,0
+		displayFolder: Data Quality
+
+	/// Invalid ordering or future-date issue events.
+	measure 'Invalid Date Count' = CALCULATE ( [Detected Data Quality Issues], DataQualityIssues[Issue_Type] IN { "Incorrect Date Ordering", "Future Settlement Date" } )
+		formatString: #,0
+		displayFolder: Data Quality
+
+	/// Completeness across three controlled required fields in the raw data.
+	measure 'Completeness %' = 1 - DIVIDE ( CALCULATE ( [Detected Data Quality Issues], DataQualityIssues[Issue_Type] IN { "Missing Region", "Missing Claim Amount", "Blank Channel" } ), [Raw Rows] * 3 )
+		formatString: 0.0%
+		displayFolder: Data Quality
+
+	/// Simple transparent quality index: one minus detected issue events per raw row.
+	measure 'Data Quality Score' = 1 - DIVIDE ( [Detected Data Quality Issues], [Raw Rows] )
+		formatString: 0.0%
+		displayFolder: Data Quality
+
+	/// Relative throughput component; not a productivity judgement.
+	measure 'Handler Throughput Index' = DIVIDE ( [Claims Per Handler], CALCULATE ( [Claims Per Handler], ALL ( DimHandler ) ) )
+		formatString: 0.00
+		displayFolder: Handler Scorecard
+
+	/// Relative service component.
+	measure 'Handler Service Index' = DIVIDE ( [SLA Compliance %], CALCULATE ( [SLA Compliance %], ALL ( DimHandler ) ) )
+		formatString: 0.00
+		displayFolder: Handler Scorecard
+
+	/// Relative quality component combining reopen and complaint signals.
+	measure 'Handler Quality Index' = DIVIDE ( 1 - [Reopen Rate %] - [Complaint Rate %], CALCULATE ( 1 - [Reopen Rate %] - [Complaint Rate %], ALL ( DimHandler ) ) )
+		formatString: 0.00
+		displayFolder: Handler Scorecard
+
+	/// Claim-value mix proxy for complexity; not a complete case-mix adjustment.
+	measure 'Handler Complexity Index' = DIVIDE ( AVERAGE ( FactClaims[Claim_Amount] ), CALCULATE ( [Average Severity], ALL ( DimHandler ) ) )
+		formatString: 0.00
+		displayFolder: Handler Scorecard
+
+	/// Balanced workload-management demonstration; not an employee performance score.
+	measure 'Balanced Effectiveness Score' = ```
+		VAR Throughput = MIN ( [Handler Throughput Index], 1.5 )
+		VAR Service = MIN ( [Handler Service Index], 1.5 )
+		VAR Quality = MIN ( [Handler Quality Index], 1.5 )
+		VAR Complexity = MIN ( [Handler Complexity Index], 1.5 )
+		RETURN 0.25 * Throughput + 0.35 * Service + 0.25 * Quality + 0.15 * Complexity
+	```
+		formatString: 0.00
+		displayFolder: Handler Scorecard
+
+	/// Dynamic executive exception statement.
+	measure 'Executive Attention — Severity' = ```
+		VAR Delta = [Severity YoY %]
+		RETURN IF ( ISBLANK ( Delta ), "Severity comparison unavailable", IF ( Delta >= 0, "▲ Severity " & FORMAT ( Delta, "0.0%" ) & " YoY", "▼ Severity " & FORMAT ( ABS ( Delta ), "0.0%" ) & " YoY" ) )
+	```
+		formatString: General
+		displayFolder: Executive Attention
+
+	/// Dynamic SLA exception statement.
+	measure 'Executive Attention — SLA' = ```
+		VAR Delta = [SLA Variance vs PY]
+		RETURN IF ( ISBLANK ( Delta ), "SLA comparison unavailable", IF ( Delta >= 0, "▲ SLA compliance +" & FORMAT ( Delta, "0.0" ) & " pp", "▼ SLA compliance " & FORMAT ( Delta, "0.0" ) & " pp" ) )
+	```
+		formatString: General
+		displayFolder: Executive Attention
+
+	/// Dynamic backlog exception statement.
+	measure 'Executive Attention — Backlog' = "▲ 30+ day backlog: " & FORMAT ( [30+ Day Open Claims], "#,0" ) & " claims (" & FORMAT ( [Backlog %], "0.0%" ) & ")"
+		formatString: General
+		displayFolder: Executive Attention
+
+	/// Metric selector used by root-cause and comparative visuals.
+	measure 'Selected Metric Value' = SWITCH ( SELECTEDVALUE ( 'Analysis Metric'[Analysis Metric], "Total Incurred" ), "Total Incurred", [Total Incurred], "Average Severity", [Average Severity], "Settlement Days", [Average Settlement Days], "SLA Compliance", [SLA Compliance %], "Fraud Referral Rate", [Fraud Referral Rate %], [Total Incurred] )
+		formatString: #,0.00
+		displayFolder: Field Parameter
+
+	partition Measures = m
+		mode: import
+		source = #table(type table [Value = Int64.Type], {{1}})
+
+	annotation PBI_ResultType = Table

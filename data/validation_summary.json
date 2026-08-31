@@ -1,0 +1,31 @@
+{
+  "synthetic": true,
+  "raw_rows": 75150,
+  "unique_claim_ids": 75000,
+  "seeded_issue_events": 2150,
+  "detected_issue_events": 2150,
+  "detection_rate": 1.0,
+  "missed_seed_ids": [],
+  "duplicate_raw_rows": 150,
+  "issues_by_type": {
+    "Blank Channel": 180,
+    "Duplicate Row": 150,
+    "Future Settlement Date": 150,
+    "Inconsistent Claim Status": 250,
+    "Inconsistent Region Naming": 250,
+    "Incorrect Date Ordering": 200,
+    "Invalid Claim Type": 100,
+    "Missing Claim Amount": 180,
+    "Missing Region": 200,
+    "Mixed Capitalization": 120,
+    "Negative Claim Amount": 220,
+    "Whitespace": 150
+  },
+  "issues_by_severity": {
+    "Critical": 750,
+    "High": 450,
+    "Low": 270,
+    "Medium": 680
+  },
+  "duplicate_issue_events": 150
+}

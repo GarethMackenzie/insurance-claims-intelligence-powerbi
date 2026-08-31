@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "8f41714387105029bb15",
+  "position": {
+    "x": 795,
+    "y": 130,
+    "z": 12,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 12
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Large Loss Count"
+                }
+              },
+              "queryRef": "Measures.Large Loss Count",
+              "nativeQueryRef": "Large Loss Count"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Large Loss Count'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

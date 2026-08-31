@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "a4803bddd7d55779a9ca",
+  "position": {
+    "x": 20,
+    "y": 130,
+    "z": 7,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 7
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Claims Per Handler"
+                }
+              },
+              "queryRef": "Measures.Claims Per Handler",
+              "nativeQueryRef": "Claims Per Handler"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Claims Per Handler'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

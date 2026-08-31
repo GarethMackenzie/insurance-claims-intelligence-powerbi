@@ -1,0 +1,31 @@
+table DimRegion
+	column Region_Key
+		dataType: int64
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: Region_Key
+	column Region
+		dataType: string
+		dataCategory: StateOrProvince
+		sourceColumn: Region
+	column Operating_Zone
+		dataType: string
+		sourceColumn: Operating_Zone
+	column Latitude
+		dataType: double
+		summarizeBy: none
+		dataCategory: Latitude
+		sourceColumn: Latitude
+	column Longitude
+		dataType: double
+		summarizeBy: none
+		dataCategory: Longitude
+		sourceColumn: Longitude
+
+	partition DimRegion = m
+		mode: import
+		source =
+			fnLoadCsv("data\clean\DimRegion.csv", type table [Region_Key = Int64.Type, Region = type text, Operating_Zone = type text, Latitude = type number, Longitude = type number])
+
+	annotation PBI_ResultType = Table

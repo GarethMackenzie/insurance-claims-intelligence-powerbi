@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "969b270d0955518daf74",
+  "position": {
+    "x": 485,
+    "y": 130,
+    "z": 10,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Outstanding Reserve"
+                }
+              },
+              "queryRef": "Measures.Outstanding Reserve",
+              "nativeQueryRef": "Outstanding Reserve"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Outstanding Reserve'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

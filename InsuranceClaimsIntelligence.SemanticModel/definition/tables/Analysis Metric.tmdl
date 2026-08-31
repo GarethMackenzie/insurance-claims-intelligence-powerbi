@@ -1,0 +1,34 @@
+table 'Analysis Metric'
+    column 'Analysis Metric'
+        dataType: string
+        sortByColumn: 'Analysis Metric Order'
+        summarizeBy: none
+        relatedColumnDetails:
+            groupByColumns:
+            - groupingColumn: 'Analysis Metric Fields'
+        sourceColumn: [Value1]
+
+    column 'Analysis Metric Fields'
+        dataType: string
+        isHidden
+        sourceColumn: [Value2]
+        extendedProperty ParameterMetadata = {"version":3,"kind":2}
+
+    column 'Analysis Metric Order'
+        dataType: int64
+        isHidden
+        summarizeBy: none
+        sourceColumn: [Value3]
+
+    partition 'Analysis Metric' = calculated
+        mode: import
+        source = {
+            ("Total Incurred", NAMEOF('Measures'[Total Incurred]), 0),
+            ("Average Severity", NAMEOF('Measures'[Average Severity]), 1),
+            ("Settlement Days", NAMEOF('Measures'[Average Settlement Days]), 2),
+            ("SLA Compliance", NAMEOF('Measures'[SLA Compliance %]), 3),
+            ("Fraud Referral Rate", NAMEOF('Measures'[Fraud Referral Rate %]), 4)
+        }
+
+    annotation PBI_ResultType = Table
+    annotation PBI_Id = 7de4f9eb7d7a4cfb845c7e4c883401bc

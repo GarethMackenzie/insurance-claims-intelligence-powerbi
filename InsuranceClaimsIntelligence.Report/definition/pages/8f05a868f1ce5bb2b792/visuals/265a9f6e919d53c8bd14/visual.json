@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "265a9f6e919d53c8bd14",
+  "position": {
+    "x": 640,
+    "y": 130,
+    "z": 11,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Potential Fraud Captured"
+                }
+              },
+              "queryRef": "Measures.Potential Fraud Captured",
+              "nativeQueryRef": "Potential Fraud Captured"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Potential Fraud Captured'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,5 @@
+Severity_Key,Severity_Band,Severity_Order,Definition
+1,Low,1,Below R25k
+2,Moderate,2,R25k–R100k
+3,High,3,R100k–R250k
+4,Large Loss,4,Above R250k

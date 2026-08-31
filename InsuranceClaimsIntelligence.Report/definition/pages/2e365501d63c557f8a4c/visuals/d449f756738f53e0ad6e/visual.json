@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "d449f756738f53e0ad6e",
+  "position": {
+    "x": 850,
+    "y": 458,
+    "z": 20,
+    "height": 190,
+    "width": 395,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimStatus"
+                    }
+                  },
+                  "Property": "Claim_Status"
+                }
+              },
+              "queryRef": "DimStatus.Claim_Status",
+              "nativeQueryRef": "Claim_Status"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Open Claims"
+                }
+              },
+              "queryRef": "Measures.Open Claims",
+              "nativeQueryRef": "Open Claims"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Open claims by reason'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

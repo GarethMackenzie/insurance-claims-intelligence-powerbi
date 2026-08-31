@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "fc1f989af0aa51ae8893",
+  "position": {
+    "x": 435,
+    "y": 250,
+    "z": 16,
+    "height": 190,
+    "width": 395,
+    "tabOrder": 16
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimClaimType"
+                    }
+                  },
+                  "Property": "Claim_Type"
+                }
+              },
+              "queryRef": "DimClaimType.Claim_Type",
+              "nativeQueryRef": "Claim_Type"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "High Risk Claims %"
+                }
+              },
+              "queryRef": "Measures.High Risk Claims %",
+              "nativeQueryRef": "High Risk Claims %"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Risk by claim type'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

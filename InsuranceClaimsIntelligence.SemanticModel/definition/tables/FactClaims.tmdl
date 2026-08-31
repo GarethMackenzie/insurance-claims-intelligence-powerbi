@@ -1,0 +1,204 @@
+table FactClaims
+	column Claim_ID
+		dataType: string
+		isKey
+		sourceColumn: Claim_ID
+	column Policy_ID
+		dataType: string
+		sourceColumn: Policy_ID
+	column Loss_Date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		sourceColumn: Loss_Date
+	column Report_Date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		sourceColumn: Report_Date
+	column Assignment_Date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		sourceColumn: Assignment_Date
+	column Assessment_Date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		sourceColumn: Assessment_Date
+	column Decision_Date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		sourceColumn: Decision_Date
+	column Settlement_Date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		sourceColumn: Settlement_Date
+	column Loss_Date_Key
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Loss_Date_Key
+	column Report_Date_Key
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Report_Date_Key
+	column Settlement_Date_Key
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Settlement_Date_Key
+	column Product_Key
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Product_Key
+	column Region_Key
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Region_Key
+	column Claim_Type_Key
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Claim_Type_Key
+	column Handler_Key
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Handler_Key
+	column Channel_Key
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Channel_Key
+	column Supplier_Key
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Supplier_Key
+	column Status_Key
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Status_Key
+	column Severity_Key
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Severity_Key
+	column Risk_Key
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: Risk_Key
+	column Claim_Amount
+		dataType: decimal
+		summarizeBy: none
+		formatString: R #,##0.00;[Red]-R #,##0.00;R 0.00
+		sourceColumn: Claim_Amount
+	column Approved_Amount
+		dataType: decimal
+		summarizeBy: none
+		formatString: R #,##0.00;[Red]-R #,##0.00;R 0.00
+		sourceColumn: Approved_Amount
+	column Paid_Amount
+		dataType: decimal
+		summarizeBy: none
+		formatString: R #,##0.00;[Red]-R #,##0.00;R 0.00
+		sourceColumn: Paid_Amount
+	column Reserve_Amount
+		dataType: decimal
+		summarizeBy: none
+		formatString: R #,##0.00;[Red]-R #,##0.00;R 0.00
+		sourceColumn: Reserve_Amount
+	column Total_Incurred
+		dataType: decimal
+		summarizeBy: none
+		formatString: R #,##0.00;[Red]-R #,##0.00;R 0.00
+		sourceColumn: Total_Incurred
+	column Fraud_Risk_Score
+		dataType: double
+		summarizeBy: none
+		sourceColumn: Fraud_Risk_Score
+	column Fraud_Referral_Flag
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Fraud_Referral_Flag
+	column Synthetic_Fraud_Target_Flag
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Synthetic_Fraud_Target_Flag
+	column Risk_Rank_Percentile
+		dataType: double
+		summarizeBy: none
+		sourceColumn: Risk_Rank_Percentile
+	column Review_Priority
+		dataType: string
+		sourceColumn: Review_Priority
+	column Reopened_Flag
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Reopened_Flag
+	column Complaint_Flag
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Complaint_Flag
+	column Documentation_Missing_Flag
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Documentation_Missing_Flag
+	column SLA_Target_Days
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: SLA_Target_Days
+	column Settlement_Days
+		dataType: double
+		summarizeBy: none
+		sourceColumn: Settlement_Days
+	column SLA_Met_Flag
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: SLA_Met_Flag
+	column Reporting_Delay_Days
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Reporting_Delay_Days
+	column Prior_Claims_Count
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Prior_Claims_Count
+	column Policy_Tenure_Months
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Policy_Tenure_Months
+	column Claim_Complexity
+		dataType: string
+		sourceColumn: Claim_Complexity
+	column Open_Claim_Age_Days
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Open_Claim_Age_Days
+	column Assignment_Days
+		dataType: double
+		summarizeBy: none
+		sourceColumn: Assignment_Days
+	column Assessment_Days
+		dataType: double
+		summarizeBy: none
+		sourceColumn: Assessment_Days
+	column Decision_Days
+		dataType: double
+		summarizeBy: none
+		sourceColumn: Decision_Days
+	column Lifecycle_Stage
+		dataType: string
+		sourceColumn: Lifecycle_Stage
+	column Ingestion_Batch
+		dataType: string
+		sourceColumn: Ingestion_Batch
+
+	partition FactClaims = m
+		mode: import
+		source =
+			fnLoadCsv("data\clean\FactClaims.csv", type table [Claim_ID = type text, Policy_ID = type text, Loss_Date = type date, Report_Date = type date, Assignment_Date = type date, Assessment_Date = type date, Decision_Date = type date, Settlement_Date = type date, Loss_Date_Key = Int64.Type, Report_Date_Key = Int64.Type, Settlement_Date_Key = Int64.Type, Product_Key = Int64.Type, Region_Key = Int64.Type, Claim_Type_Key = Int64.Type, Handler_Key = Int64.Type, Channel_Key = Int64.Type, Supplier_Key = Int64.Type, Status_Key = Int64.Type, Severity_Key = Int64.Type, Risk_Key = Int64.Type, Claim_Amount = Currency.Type, Approved_Amount = Currency.Type, Paid_Amount = Currency.Type, Reserve_Amount = Currency.Type, Total_Incurred = Currency.Type, Fraud_Risk_Score = type number, Fraud_Referral_Flag = Int64.Type, Synthetic_Fraud_Target_Flag = Int64.Type, Risk_Rank_Percentile = type number, Review_Priority = type text, Reopened_Flag = Int64.Type, Complaint_Flag = Int64.Type, Documentation_Missing_Flag = Int64.Type, SLA_Target_Days = Int64.Type, Settlement_Days = type number, SLA_Met_Flag = Int64.Type, Reporting_Delay_Days = Int64.Type, Prior_Claims_Count = Int64.Type, Policy_Tenure_Months = Int64.Type, Claim_Complexity = type text, Open_Claim_Age_Days = Int64.Type, Assignment_Days = type number, Assessment_Days = type number, Decision_Days = type number, Lifecycle_Stage = type text, Ingestion_Batch = type text])
+
+	annotation PBI_ResultType = Table

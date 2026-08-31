@@ -1,0 +1,25 @@
+{
+  "preview_type": "DESIGN MOCKUP",
+  "power_bi_screenshots": false,
+  "reason": "Power BI Desktop was not available in the build environment.",
+  "files": [
+    "executive-overview.png",
+    "claims-operations.png",
+    "fraud-risk.png",
+    "financial-performance.png",
+    "regional-intelligence.png",
+    "handler-performance.png",
+    "root-cause-analysis.png",
+    "data-quality.png"
+  ],
+  "source_pages": [
+    "Executive Claims Overview",
+    "Claims Operations",
+    "Fraud & Risk Intelligence",
+    "Financial Performance",
+    "Regional Intelligence",
+    "Handler Performance",
+    "Root Cause Analysis",
+    "Data Quality"
+  ]
+}

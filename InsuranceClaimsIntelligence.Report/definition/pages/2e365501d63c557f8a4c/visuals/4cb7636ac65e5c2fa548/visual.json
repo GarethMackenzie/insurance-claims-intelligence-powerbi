@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "4cb7636ac65e5c2fa548",
+  "position": {
+    "x": 330,
+    "y": 130,
+    "z": 9,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 9
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "90th Percentile Settlement Days"
+                }
+              },
+              "queryRef": "Measures.90th Percentile Settlement Days",
+              "nativeQueryRef": "90th Percentile Settlement Days"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'90th Percentile Settlement Days'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

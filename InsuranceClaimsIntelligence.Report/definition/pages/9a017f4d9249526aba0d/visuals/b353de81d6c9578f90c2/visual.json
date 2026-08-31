@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "b353de81d6c9578f90c2",
+  "position": {
+    "x": 20,
+    "y": 458,
+    "z": 18,
+    "height": 190,
+    "width": 395,
+    "tabOrder": 18
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DataQualityIssues"
+                    }
+                  },
+                  "Property": "Resolution"
+                }
+              },
+              "queryRef": "DataQualityIssues.Resolution",
+              "nativeQueryRef": "Resolution"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Detected Data Quality Issues"
+                }
+              },
+              "queryRef": "Measures.Detected Data Quality Issues",
+              "nativeQueryRef": "Detected Data Quality Issues"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Validation outcomes'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

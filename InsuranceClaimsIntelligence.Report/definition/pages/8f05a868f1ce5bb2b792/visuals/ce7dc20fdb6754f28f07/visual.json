@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "ce7dc20fdb6754f28f07",
+  "position": {
+    "x": 1105,
+    "y": 130,
+    "z": 14,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 14
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Lift vs Random Review"
+                }
+              },
+              "queryRef": "Measures.Lift vs Random Review",
+              "nativeQueryRef": "Lift vs Random Review"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Lift vs Random Review'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

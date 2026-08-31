@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "a8b87d842263563b8be5",
+  "position": {
+    "x": 485,
+    "y": 130,
+    "z": 10,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Claims Selected for Review"
+                }
+              },
+              "queryRef": "Measures.Claims Selected for Review",
+              "nativeQueryRef": "Claims Selected for Review"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Claims Selected for Review'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

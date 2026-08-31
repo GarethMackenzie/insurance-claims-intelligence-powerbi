@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "1c722c9c142c5b38aad6",
+  "position": {
+    "x": 850,
+    "y": 458,
+    "z": 20,
+    "height": 190,
+    "width": 395,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Investigation Capacity"
+                    }
+                  },
+                  "Property": "Investigation Capacity"
+                }
+              },
+              "queryRef": "Investigation Capacity.Investigation Capacity",
+              "nativeQueryRef": "Investigation Capacity"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "False Positive Rate"
+                }
+              },
+              "queryRef": "Measures.False Positive Rate",
+              "nativeQueryRef": "False Positive Rate"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'False-positive exposure'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

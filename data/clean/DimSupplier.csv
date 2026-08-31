@@ -1,0 +1,46 @@
+Supplier_Key,Supplier,Supplier_Type,Home_Region_Key
+1,Supplier Network 01,Repair Network,1
+2,Supplier Network 02,Assessor,2
+3,Supplier Network 03,Loss Adjuster,3
+4,Supplier Network 04,Investigation,4
+5,Supplier Network 05,Parts Network,5
+6,Supplier Network 06,Repair Network,6
+7,Supplier Network 07,Assessor,7
+8,Supplier Network 08,Loss Adjuster,8
+9,Supplier Network 09,Investigation,9
+10,Supplier Network 10,Parts Network,1
+11,Supplier Network 11,Repair Network,2
+12,Supplier Network 12,Assessor,3
+13,Supplier Network 13,Loss Adjuster,4
+14,Supplier Network 14,Investigation,5
+15,Supplier Network 15,Parts Network,6
+16,Supplier Network 16,Repair Network,7
+17,Supplier Network 17,Assessor,8
+18,Supplier Network 18,Loss Adjuster,9
+19,Supplier Network 19,Investigation,1
+20,Supplier Network 20,Parts Network,2
+21,Supplier Network 21,Repair Network,3
+22,Supplier Network 22,Assessor,4
+23,Supplier Network 23,Loss Adjuster,5
+24,Supplier Network 24,Investigation,6
+25,Supplier Network 25,Parts Network,7
+26,Supplier Network 26,Repair Network,8
+27,Supplier Network 27,Assessor,9
+28,Supplier Network 28,Loss Adjuster,1
+29,Supplier Network 29,Investigation,2
+30,Supplier Network 30,Parts Network,3
+31,Supplier Network 31,Repair Network,4
+32,Supplier Network 32,Assessor,5
+33,Supplier Network 33,Loss Adjuster,6
+34,Supplier Network 34,Investigation,7
+35,Supplier Network 35,Parts Network,8
+36,Supplier Network 36,Repair Network,9
+37,Supplier Network 37,Assessor,1
+38,Supplier Network 38,Loss Adjuster,2
+39,Supplier Network 39,Investigation,3
+40,Supplier Network 40,Parts Network,4
+41,Supplier Network 41,Repair Network,5
+42,Supplier Network 42,Assessor,6
+43,Supplier Network 43,Loss Adjuster,7
+44,Supplier Network 44,Investigation,8
+45,Supplier Network 45,Parts Network,9

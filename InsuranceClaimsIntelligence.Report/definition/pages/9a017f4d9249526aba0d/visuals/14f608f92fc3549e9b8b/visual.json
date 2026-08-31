@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "14f608f92fc3549e9b8b",
+  "position": {
+    "x": 950,
+    "y": 130,
+    "z": 13,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 13
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Data Quality Score"
+                }
+              },
+              "queryRef": "Measures.Data Quality Score",
+              "nativeQueryRef": "Data Quality Score"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Data Quality Score'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,53 @@
+relationship c701b101-0224-57d7-89bc-74aa88303ba6
+	fromColumn: FactClaims.Loss_Date
+	toColumn: DimDate.Date
+
+relationship 1c1f25e0-cc5f-5875-8dcf-74411b4e00cd
+	fromColumn: FactClaims.Report_Date
+	toColumn: DimDate.Date
+	isActive: false
+
+relationship f3fbf2cf-3768-5447-a524-2493b31d04ae
+	fromColumn: FactClaims.Settlement_Date
+	toColumn: DimDate.Date
+	isActive: false
+
+relationship 323e409c-5ad8-5919-ab30-56fef64f3201
+	fromColumn: FactClaims.Product_Key
+	toColumn: DimProduct.Product_Key
+
+relationship c4f587a8-a41f-52b9-9b54-85423a3d8dbb
+	fromColumn: FactClaims.Region_Key
+	toColumn: DimRegion.Region_Key
+
+relationship 205b0961-12ca-578b-b033-d37281dc92f3
+	fromColumn: FactClaims.Claim_Type_Key
+	toColumn: DimClaimType.Claim_Type_Key
+
+relationship 69637e1c-2e0d-52c4-9945-799c9d993d38
+	fromColumn: FactClaims.Handler_Key
+	toColumn: DimHandler.Handler_Key
+
+relationship 804d0b66-dfb7-54da-8a99-00e6fb728920
+	fromColumn: FactClaims.Channel_Key
+	toColumn: DimChannel.Channel_Key
+
+relationship 406f0730-f9de-587c-a4bc-f8244a919bd5
+	fromColumn: FactClaims.Supplier_Key
+	toColumn: DimSupplier.Supplier_Key
+
+relationship 51cf2d55-b496-5200-b07e-712fd605e320
+	fromColumn: FactClaims.Status_Key
+	toColumn: DimStatus.Status_Key
+
+relationship 10621a6c-50f8-5960-a4b9-03d7f97e16d0
+	fromColumn: FactClaims.Severity_Key
+	toColumn: DimSeverity.Severity_Key
+
+relationship b0127354-40f6-5003-99c5-fe1d8b4d53c2
+	fromColumn: FactClaims.Risk_Key
+	toColumn: DimRisk.Risk_Key
+
+relationship 0c6752ad-7494-5900-879c-ba128d6e5474
+	fromColumn: DataQualityIssues.Claim_ID
+	toColumn: FactClaims.Claim_ID

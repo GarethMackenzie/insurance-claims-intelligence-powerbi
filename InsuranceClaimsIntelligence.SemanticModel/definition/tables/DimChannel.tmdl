@@ -1,0 +1,20 @@
+table DimChannel
+	column Channel_Key
+		dataType: int64
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: Channel_Key
+	column Channel
+		dataType: string
+		sourceColumn: Channel
+	column Channel_Group
+		dataType: string
+		sourceColumn: Channel_Group
+
+	partition DimChannel = m
+		mode: import
+		source =
+			fnLoadCsv("data\clean\DimChannel.csv", type table [Channel_Key = Int64.Type, Channel = type text, Channel_Group = type text])
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "a73aa9e377ba5ec2afc3",
+  "position": {
+    "x": 850,
+    "y": 458,
+    "z": 20,
+    "height": 190,
+    "width": 395,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimClaimType"
+                    }
+                  },
+                  "Property": "Claim_Type"
+                }
+              },
+              "queryRef": "DimClaimType.Claim_Type",
+              "nativeQueryRef": "Claim_Type"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Outstanding Reserve"
+                }
+              },
+              "queryRef": "Measures.Outstanding Reserve",
+              "nativeQueryRef": "Outstanding Reserve"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Reserve concentration'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

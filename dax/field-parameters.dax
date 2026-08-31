@@ -1,0 +1,8 @@
+// Equivalent DAX for the TMDL field-parameter table.
+Analysis Metric = {
+    ("Total Incurred", NAMEOF('Measures'[Total Incurred]), 0),
+    ("Average Severity", NAMEOF('Measures'[Average Severity]), 1),
+    ("Settlement Days", NAMEOF('Measures'[Average Settlement Days]), 2),
+    ("SLA Compliance", NAMEOF('Measures'[SLA Compliance %]), 3),
+    ("Fraud Referral Rate", NAMEOF('Measures'[Fraud Referral Rate %]), 4)
+}

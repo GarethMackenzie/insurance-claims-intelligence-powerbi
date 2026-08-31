@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "089787468950587e8d21",
+  "position": {
+    "x": 1105,
+    "y": 130,
+    "z": 14,
+    "height": 104,
+    "width": 145,
+    "tabOrder": 14
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Balanced Effectiveness Score"
+                }
+              },
+              "queryRef": "Measures.Balanced Effectiveness Score",
+              "nativeQueryRef": "Balanced Effectiveness Score"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Balanced Effectiveness Score'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

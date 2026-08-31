@@ -1,0 +1,30 @@
+table DataQualityIssues
+	column Issue_ID
+		dataType: string
+		isKey
+		sourceColumn: Issue_ID
+	column Claim_ID
+		dataType: string
+		sourceColumn: Claim_ID
+	column Issue_Type
+		dataType: string
+		sourceColumn: Issue_Type
+	column Severity
+		dataType: string
+		sourceColumn: Severity
+	column Original_Value
+		dataType: string
+		sourceColumn: Original_Value
+	column Corrected_Value
+		dataType: string
+		sourceColumn: Corrected_Value
+	column Resolution
+		dataType: string
+		sourceColumn: Resolution
+
+	partition DataQualityIssues = m
+		mode: import
+		source =
+			fnLoadCsv("data\data_quality_issues.csv", type table [Issue_ID = type text, Claim_ID = type text, Issue_Type = type text, Severity = type text, Original_Value = type text, Corrected_Value = type text, Resolution = type text])
+
+	annotation PBI_ResultType = Table

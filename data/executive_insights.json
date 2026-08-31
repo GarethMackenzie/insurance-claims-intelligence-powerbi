@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Fire leads incurred exposure",
+    "observation": "Fire is the largest synthetic claim-type exposure.",
+    "evidence": "It contributes R1,653,712,314, or 18.3%, of total incurred.",
+    "business_implication": "Concentration in one cause category can amplify reserve and supplier-management pressure.",
+    "possible_action": "Review severity drivers, coverage mix and supplier pathways for this category; treat the result as a portfolio signal, not causal proof."
+  },
+  {
+    "title": "Free State has the strongest comparable severity increase",
+    "observation": "Average claim amount increased most in this province in the January\u2013August comparison.",
+    "evidence": "Synthetic average severity is +15.9% versus January\u2013August 2025.",
+    "business_implication": "A sustained increase may put upward pressure on case reserves and claims budgets.",
+    "possible_action": "Drill into product, claim type and large-loss mix before attributing the change to operations or pricing."
+  },
+  {
+    "title": "Aged open claims concentrate reserve exposure",
+    "observation": "Claims open for 30 days or longer hold a larger share of reserves than their share of open volume.",
+    "evidence": "They represent 75.0% of open claims and 79.9% of open-claim reserves.",
+    "business_implication": "Backlog reduction focused on value as well as count may release more operational attention.",
+    "possible_action": "Prioritize aged, high-reserve cases for structured case review and barrier removal."
+  },
+  {
+    "title": "Assessment is the weakest open-stage SLA segment",
+    "observation": "This lifecycle status records the lowest simulated SLA compliance among material open stages.",
+    "evidence": "SLA compliance is 39.7% for the segment.",
+    "business_implication": "A stage-specific queue can create downstream settlement delay and complaints.",
+    "possible_action": "Inspect documentation, supplier and allocation dependencies in the stage before changing capacity."
+  },
+  {
+    "title": "High-risk concentration is greatest in KwaZulu-Natal",
+    "observation": "This province has the highest share of claims in the High or Critical synthetic risk bands.",
+    "evidence": "The concentration is 15.8% of claims in the province.",
+    "business_implication": "A capacity-constrained investigation team may need risk-based regional queue monitoring.",
+    "possible_action": "Use the score only to prioritize review and combine it with analyst judgement; it does not determine fraud."
+  },
+  {
+    "title": "Agricultural claims have the longer median settlement cycle",
+    "observation": "The settled-claim median differs between the two synthetic portfolios.",
+    "evidence": "Agricultural records 67 days versus 32 days for the other product.",
+    "business_implication": "Portfolio mix and complexity should be considered when comparing operational performance.",
+    "possible_action": "Segment capacity and SLA conversations by complexity rather than applying one productivity target."
+  },
+  {
+    "title": "SLA misses coincide with a higher complaint rate",
+    "observation": "Complaint incidence is higher among claims outside the simulated SLA target.",
+    "evidence": "Complaint rate is 8.6% for SLA misses versus 1.9% where SLA is met.",
+    "business_implication": "Timeliness and customer-friction indicators should be managed together.",
+    "possible_action": "Monitor the relationship as an operational correlation; do not infer causality from the synthetic data."
+  },
+  {
+    "title": "Risk ranking creates review-capacity lift",
+    "observation": "The top 10% of synthetic risk scores captures more target events than random review would be expected to capture.",
+    "evidence": "At 10% capacity, simulated precision is 15.1%, recall is 16.9%, and lift is 1.69\u00d7.",
+    "business_implication": "Prioritization can help allocate scarce review capacity, subject to governance and human decision-making.",
+    "possible_action": "Validate thresholds, monitor false positives and retain analyst review before any operational action."
+  }
+]

@@ -1,0 +1,57 @@
+table DimDate
+	column Date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		sourceColumn: Date
+	column Date_Key
+		dataType: int64
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: Date_Key
+	column Year
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Year
+	column Quarter
+		dataType: string
+		sourceColumn: Quarter
+	column Month_Number
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Month_Number
+	column Month
+		dataType: string
+		sourceColumn: Month
+	column Month_Short
+		dataType: string
+		sourceColumn: Month_Short
+	column Year_Month
+		dataType: string
+		sourceColumn: Year_Month
+	column Year_Month_Sort
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Year_Month_Sort
+	column Week
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Week
+	column Day
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Day
+	column Day_Name
+		dataType: string
+		sourceColumn: Day_Name
+	column Is_Month_End
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Is_Month_End
+
+	partition DimDate = m
+		mode: import
+		source =
+			fnLoadCsv("data\clean\DimDate.csv", type table [Date = type date, Date_Key = Int64.Type, Year = Int64.Type, Quarter = type text, Month_Number = Int64.Type, Month = type text, Month_Short = type text, Year_Month = type text, Year_Month_Sort = Int64.Type, Week = Int64.Type, Day = Int64.Type, Day_Name = type text, Is_Month_End = Int64.Type])
+
+	annotation PBI_ResultType = Table
