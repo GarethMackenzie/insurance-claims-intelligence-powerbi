@@ -1,6 +1,6 @@
 {
-  "checks": 30,
-  "passed": 30,
+  "checks": 33,
+  "passed": 33,
   "failed": 0,
   "status": "PASS",
   "results": [
@@ -153,6 +153,21 @@
       "check": "Repository credibility",
       "status": "PASS",
       "evidence": "No lorem ipsum, coming-soon copy or placeholder-junk files."
+    },
+    {
+      "check": "Desktop evidence boundary",
+      "status": "PASS",
+      "evidence": "Runtime results remain MANUAL REVIEW and no Power BI screenshot asset is claimed or present without Desktop evidence."
+    },
+    {
+      "check": "Recruiter evidence pack",
+      "status": "PASS",
+      "evidence": "Walkthrough timing, eight page captions, technical interview answers and README links are complete."
+    },
+    {
+      "check": "README recruiter presentation",
+      "status": "PASS",
+      "evidence": "The opening evidence line, executive summary, concise case study and core recruiter sections are present."
     }
   ]
 }

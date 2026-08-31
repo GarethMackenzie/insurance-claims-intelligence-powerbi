@@ -48,13 +48,18 @@ insurance-claims-intelligence-powerbi/
     ├── data-dictionary.md
     ├── data-model.md
     ├── data-quality.md
+    ├── desktop-verification-checklist.md
     ├── executive-insights.md
     ├── file-tree.txt
+    ├── interview-guide.md
     ├── limitations.md
     ├── methodology.md
+    ├── power-bi-runtime-verification.md
     ├── power-bi-setup.md
     ├── power-query.md
+    ├── project-walkthrough.md
     ├── qa-report.md
+    ├── report-page-guide.md
     ├── report-pages.md
     ├── row-level-security.md
 ├── InsuranceClaimsIntelligence.pbip

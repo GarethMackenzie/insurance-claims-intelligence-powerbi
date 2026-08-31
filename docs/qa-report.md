@@ -34,9 +34,12 @@ Run with `python scripts/qa_project.py` using Python 3.12.13.
 | 28 | Privacy and neutral branding | **PASS** | No named employer, email address, local user path or credential pattern appears in project artifacts; all claim, policy, handler and supplier data is synthetic. |
 | 29 | Preview asset integrity | **PASS** | Eight 1600×900 PNG assets are explicitly labelled DESIGN MOCKUP; no screenshot claim is made. |
 | 30 | Repository credibility | **PASS** | No lorem ipsum, coming-soon copy or placeholder-junk files. |
+| 31 | Desktop evidence boundary | **PASS** | Runtime results remain MANUAL REVIEW and no Power BI screenshot asset is claimed or present without Desktop evidence. |
+| 32 | Recruiter evidence pack | **PASS** | Walkthrough timing, eight page captions, technical interview answers and README links are complete. |
+| 33 | README recruiter presentation | **PASS** | The opening evidence line, executive summary, concise case study and core recruiter sections are present. |
 
 ## Outcome
 
-**30 of 30 checks passed.**
+**33 of 33 checks passed.**
 
 Microsoft schema URLs are declared on every relevant PBIP/PBIR JSON artifact and structural validation is automated. Full JSON Schema evaluation and runtime TMDL/DAX/visual rendering still require a current Power BI Desktop host; that host was not installed in the build environment. No PBIX or screenshot was fabricated.

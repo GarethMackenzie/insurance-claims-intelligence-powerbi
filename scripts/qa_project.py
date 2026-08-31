@@ -62,7 +62,10 @@ def check_structure() -> None:
         "docs/architecture.md", "docs/data-model.md", "docs/data-dictionary.md",
         "docs/power-query.md", "docs/methodology.md", "docs/executive-insights.md",
         "docs/data-quality.md", "docs/limitations.md", "docs/row-level-security.md",
-        "docs/power-bi-setup.md", "theme/insurance-intelligence-theme.json",
+        "docs/power-bi-setup.md", "docs/desktop-verification-checklist.md",
+        "docs/power-bi-runtime-verification.md", "docs/project-walkthrough.md",
+        "docs/report-page-guide.md", "docs/interview-guide.md",
+        "theme/insurance-intelligence-theme.json",
     ]
     missing = [path for path in expected if not (ROOT / path).exists()]
     record("Required file structure", not missing, "All required project, documentation, theme and governance files exist." if not missing else f"Missing: {missing}")
@@ -314,6 +317,50 @@ def check_links_privacy_and_assets() -> None:
     record("Repository credibility", not placeholder_hits, "No lorem ipsum, coming-soon copy or placeholder-junk files.")
 
 
+def check_runtime_and_recruiter_evidence() -> None:
+    runtime = (DOCS / "power-bi-runtime-verification.md").read_text(encoding="utf-8")
+    checklist = (DOCS / "desktop-verification-checklist.md").read_text(encoding="utf-8")
+    manifest = json.loads((ROOT / "assets" / "asset-manifest.json").read_text(encoding="utf-8"))
+    powerbi_assets = list((ROOT / "assets" / "powerbi").glob("*.png")) if (ROOT / "assets" / "powerbi").exists() else []
+    honest_boundary = (
+        "Overall runtime result | **MANUAL REVIEW**" in runtime
+        and "Power BI Desktop version | Not available in the current execution environment" in runtime
+        and "Power BI Desktop verification completed successfully" not in runtime
+        and "Do not mark an interaction PASS merely because related source metadata exists." in checklist
+        and not manifest["power_bi_screenshots"]
+        and not powerbi_assets
+    )
+    record("Desktop evidence boundary", honest_boundary, "Runtime results remain MANUAL REVIEW and no Power BI screenshot asset is claimed or present without Desktop evidence." if honest_boundary else "Desktop evidence wording or screenshot state is inconsistent.")
+
+    walkthrough = (DOCS / "project-walkthrough.md").read_text(encoding="utf-8")
+    page_guide = (DOCS / "report-page-guide.md").read_text(encoding="utf-8")
+    interview = (DOCS / "interview-guide.md").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    recruiter_pack = (
+        all(marker in walkthrough for marker in ["0–10 seconds", "10–25 seconds", "25–45 seconds", "45–60 seconds", "60–75 seconds", "75–90 seconds"])
+        and len(re.findall(r"^## [1-8]\. ", page_guide, flags=re.MULTILINE)) == 8
+        and interview.count("\n## ") >= 16
+        and all(name in readme for name in ["docs/project-walkthrough.md", "docs/report-page-guide.md", "docs/interview-guide.md", "docs/power-bi-runtime-verification.md", "docs/desktop-verification-checklist.md"])
+    )
+    record("Recruiter evidence pack", recruiter_pack, "Walkthrough timing, eight page captions, technical interview answers and README links are complete." if recruiter_pack else "Recruiter-facing documentation is incomplete or not linked.")
+
+    required_readme_sections = [
+        "## Executive Summary", "## Business Problem", "## Solution Overview",
+        "## Executive Portfolio Snapshot", "## Architecture", "## Dashboard / Report Pages",
+        "## Data Model", "## DAX & Semantic Layer", "## Power Query & Data Quality",
+        "## SQL Analytics", "## Reproducibility", "## Quality Assurance",
+        "## Responsible Analytics & Limitations", "## How to Run", "## Repository Structure", "## Author",
+    ]
+    presentation_ok = (
+        all(section in readme for section in required_readme_sections)
+        and "**Portfolio evidence:** 75,000 synthetic claims · 79 DAX measures · 8 report pages" in readme
+        and "**Problem:**" in readme
+        and "**Approach:**" in readme
+        and "**Result:**" in readme
+    )
+    record("README recruiter presentation", presentation_ok, "The opening evidence line, executive summary, concise case study and core recruiter sections are present." if presentation_ok else "README recruiter presentation contract is incomplete.")
+
+
 def write_tree() -> None:
     lines = ["insurance-claims-intelligence-powerbi/"]
     paths = sorted(path for path in ROOT.rglob("*") if ".git" not in path.parts and "__pycache__" not in path.parts)
@@ -363,6 +410,7 @@ def main() -> None:
     check_powerbi_sources()
     check_sql_and_python()
     check_links_privacy_and_assets()
+    check_runtime_and_recruiter_evidence()
     write_tree()
     write_report()
 
