@@ -168,4 +168,3 @@ Optionally derive `assets/powerbi/hero-executive-dashboard.png` from the genuine
 - [ ] Record any issue, correction and retest outcome.
 - [ ] Rerun automated QA after committing verified evidence.
 - [ ] Replace the README's pending-runtime wording only when the evidence table supports it.
-

@@ -53,4 +53,3 @@ These captions explain the management purpose of each page. The repository curre
 ## Presentation order
 
 For recruiters and hiring managers, lead with Executive Claims Overview, then Architecture, Claims Operations, Risk & Review Intelligence, and finish with the QA evidence. Use the remaining pages to answer role-specific questions.
-

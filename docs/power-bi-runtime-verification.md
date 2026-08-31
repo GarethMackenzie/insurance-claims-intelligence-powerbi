@@ -78,4 +78,3 @@ Update this table only while working in Power BI Desktop. Do not infer PASS from
 ## Completion rule
 
 The README may state that Desktop verification succeeded only when this record contains the actual Desktop version, verification date, evidence links and completed results for refresh, all eight pages and core interactions.
-

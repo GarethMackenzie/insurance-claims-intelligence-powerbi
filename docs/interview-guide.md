@@ -71,4 +71,3 @@ Local CSVs would move to governed lakehouse, warehouse or database sources; envi
 **Approach:** Deterministic synthetic generation → validation → governed cleaning → star schema → Power Query → TMDL → DAX → PBIR → executive reporting → automated QA.
 
 **Result:** A reproducible, privacy-safe decision-support project whose source and limitations can be inspected directly. Synthetic financial values are demonstration results, not workplace achievements.
-

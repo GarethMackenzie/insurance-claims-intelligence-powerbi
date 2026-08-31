@@ -51,4 +51,3 @@ This is a natural 60–90 second interview explanation and future screen-recordi
 9. QA report and successful GitHub Actions run
 
 Use genuine Power BI Desktop renders for report shots. Until those exist, this document is a narration and capture plan—not evidence of a completed video.
-
