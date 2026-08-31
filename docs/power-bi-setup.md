@@ -15,6 +15,8 @@
 
 Power BI Desktop was not available in the build environment. The PBIR source contains all eight pages, bound KPI/chart definitions, slicers and disclosure text. In Desktop, verify visual role mappings for the installed report schema, then configure or confirm bookmarks, synced slicers, reset-filter actions, report-tooltip targets, provincial drill-through and phone layouts. These interaction states require a rendering host and are not claimed as runtime-tested here.
 
+Use the exact [Desktop verification checklist](desktop-verification-checklist.md) and record only observed results in [Power BI runtime verification](power-bi-runtime-verification.md).
+
 ## Save as PBIX
 
 After a successful refresh and interaction check, use **File → Save a copy** and select `.pbix` if a binary distribution is needed. This repository intentionally does not fabricate or commit a PBIX.

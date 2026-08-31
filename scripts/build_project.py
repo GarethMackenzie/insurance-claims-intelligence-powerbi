@@ -1698,6 +1698,8 @@ def create_docs(metrics: dict, findings: list[dict], measures: list[dict], relat
 
         Power BI Desktop was not available in the build environment. The PBIR source contains all eight pages, bound KPI/chart definitions, slicers and disclosure text. In Desktop, verify visual role mappings for the installed report schema, then configure or confirm bookmarks, synced slicers, reset-filter actions, report-tooltip targets, provincial drill-through and phone layouts. These interaction states require a rendering host and are not claimed as runtime-tested here.
 
+        Use the exact [Desktop verification checklist](desktop-verification-checklist.md) and record only observed results in [Power BI runtime verification](power-bi-runtime-verification.md).
+
         ## Save as PBIX
 
         After a successful refresh and interaction check, use **File → Save a copy** and select `.pbix` if a binary distribution is needed. This repository intentionally does not fabricate or commit a PBIX.
@@ -1728,6 +1730,8 @@ def create_docs(metrics: dict, findings: list[dict], measures: list[dict], relat
         | Bookmarks, reset action, synced slicers, drill-through target, phone layouts | Desktop verification/configuration required |
 
         Risk scores prioritize review. They do not automatically determine fraud. Handler views are for balanced workload management, not employee performance management.
+
+        Recruiter-facing page purposes and captions are documented in [report-page-guide.md](report-page-guide.md).
     """)
     return field_count
 
@@ -1746,11 +1750,23 @@ def create_readme(metrics: dict, findings: list[dict], measures: list[dict], rel
 
         **Source/runtime status:** Structurally validated from PBIP/PBIR/TMDL source. Final visual rendering and interaction verification requires a current Power BI Desktop host.
 
+        **Portfolio evidence:** {metrics['claims']:,} synthetic claims · {len(measures)} DAX measures · {pages} report pages · PBIP/PBIR/TMDL · Power Query · Python · SQL · automated QA and GitHub Actions
+
+        ## Executive Summary
+
+        This is a source-controlled Power BI decision-support project for claims performance, financial exposure, service, backlog and risk-based human review. It combines reproducible data engineering with an inspectable semantic model and executive analytical storytelling.
+
         ## Business Problem
 
         Claims leaders need a governed view of cost, severity, lifecycle delay, SLA, backlog, reserve exposure, regional concentration and limited fraud-review capacity. This solution is designed around management questions: what changed, where pressure is building, why it matters, and what to investigate next.
 
         ## Solution Overview
+
+        **Problem:** Claims leaders need trustworthy visibility into cost, delays, reserves, SLA and constrained risk-review capacity.
+
+        **Approach:** Synthetic generation → validation → governed cleaning → star schema → Power Query → TMDL → DAX → PBIR → executive report → automated QA.
+
+        **Result:** A reproducible, privacy-safe executive analytics solution. Synthetic financial values are demonstration results, not workplace achievements.
 
         | Capability | Evidence in this repository |
         |---|---|
@@ -1804,6 +1820,8 @@ def create_readme(metrics: dict, findings: list[dict], measures: list[dict], rel
 
         Page scope and implementation status are documented in [report-pages.md](docs/report-pages.md).
 
+        Recruiter-focused captions and management decisions are in the [report page guide](docs/report-page-guide.md).
+
         ## Data Model
 
         ![Insurance claims star schema](assets/data-model.svg)
@@ -1830,6 +1848,12 @@ def create_readme(metrics: dict, findings: list[dict], measures: list[dict], rel
 
         `python scripts/qa_project.py` reruns the full build and tests data grain, controlled defects, financial reconciliation, date semantics, PBIP/PBIR references, TMDL structure, DAX conventions, CI wiring, SQL/Python syntax, internal links, privacy and mockup integrity. The latest evidence is in [qa-report.md](docs/qa-report.md).
 
+        Automated QA does not prove rendering. The separate [runtime evidence record](docs/power-bi-runtime-verification.md) remains **MANUAL REVIEW**, with exact steps in the [Desktop verification checklist](docs/desktop-verification-checklist.md).
+
+        ## Recruiter Walkthrough
+
+        A natural [60–90 second walkthrough](docs/project-walkthrough.md) and [technical interview guide](docs/interview-guide.md) explain the business problem, architecture, semantic-model decisions, responsible analytics and production boundary without presenting synthetic results as workplace achievements.
+
         ## Responsible Analytics & Limitations
 
         Risk scores prioritize human review; they never determine fraud or automate a claim decision. Synthetic targets exist only to demonstrate queue metrics. Reserves are simplified case reserves, RLS is conceptual, and handler views support workload management rather than employee evaluation. See [limitations](docs/limitations.md) and [RLS notes](docs/row-level-security.md).
@@ -1849,7 +1873,7 @@ def create_readme(metrics: dict, findings: list[dict], measures: list[dict], rel
         python scripts/qa_project.py
         ```
 
-        Open [`InsuranceClaimsIntelligence.pbip`](InsuranceClaimsIntelligence.pbip) in a current Power BI Desktop release, set `pProjectRoot` to the clone path, refresh, and complete the Desktop-only rendering and interaction checks in [power-bi-setup.md](docs/power-bi-setup.md).
+        Open [`InsuranceClaimsIntelligence.pbip`](InsuranceClaimsIntelligence.pbip) in a current Power BI Desktop release, set `pProjectRoot` to the clone path, refresh, and complete the [Desktop verification checklist](docs/desktop-verification-checklist.md). Setup details are in [power-bi-setup.md](docs/power-bi-setup.md).
 
         ## Repository Structure
 

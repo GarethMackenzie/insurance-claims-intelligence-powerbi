@@ -29,3 +29,5 @@ The enhanced PBIR report contains **8 pages and 168 visual containers**. Standar
 | Bookmarks, reset action, synced slicers, drill-through target, phone layouts | Desktop verification/configuration required |
 
 Risk scores prioritize review. They do not automatically determine fraud. Handler views are for balanced workload management, not employee performance management.
+
+Recruiter-facing page purposes and captions are documented in [report-page-guide.md](report-page-guide.md).
