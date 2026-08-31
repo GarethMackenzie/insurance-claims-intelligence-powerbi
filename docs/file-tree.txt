@@ -1,4 +1,7 @@
 insurance-claims-intelligence-powerbi/
+├── .github/
+    ├── workflows/
+        ├── ci.yml
 ├── .gitignore
 ├── assets/
     ├── architecture.svg

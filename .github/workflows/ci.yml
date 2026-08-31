@@ -1,0 +1,63 @@
+name: Project QA
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: project-qa-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-assurance:
+    name: Generate, build and validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install requirements
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Generate synthetic dataset
+        run: python scripts/generate_synthetic_claims.py
+
+      - name: Validate dataset
+        run: python scripts/validate_data.py
+
+      - name: Build clean dataset
+        run: python scripts/build_clean_dataset.py
+
+      - name: Build project
+        run: python scripts/build_project.py
+
+      - name: Run project QA
+        run: python scripts/qa_project.py
+
+      - name: PASS
+        if: success()
+        run: echo "PASS — all project QA checks completed successfully."
+
+      - name: FAIL
+        if: failure()
+        run: |
+          echo "FAIL — review the failed step above for details."
+          exit 1

@@ -1707,6 +1707,8 @@ def create_readme(metrics: dict, findings: list[dict], measures: list[dict], rel
     write(ROOT / "README.md", f"""
         # Insurance Claims Intelligence
 
+        [![Project QA](https://github.com/GarethMackenzie/insurance-claims-intelligence-powerbi/actions/workflows/ci.yml/badge.svg)](https://github.com/GarethMackenzie/insurance-claims-intelligence-powerbi/actions/workflows/ci.yml)
+
         **Executive Claims Performance, Fraud Risk & Operational Analytics Command Center**
 
         An end-to-end Power BI insurance analytics portfolio project combining dimensional modelling, Power Query, DAX, operational analytics, financial exposure analysis, risk-based review prioritization and executive reporting.
