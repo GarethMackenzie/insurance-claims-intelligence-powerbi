@@ -1744,7 +1744,9 @@ def create_readme(metrics: dict, findings: list[dict], measures: list[dict], rel
 
         [![Project QA](https://github.com/GarethMackenzie/insurance-claims-intelligence-powerbi/actions/workflows/ci.yml/badge.svg)](https://github.com/GarethMackenzie/insurance-claims-intelligence-powerbi/actions/workflows/ci.yml)
 
-        ## Executive Claims Performance, Risk & Operational Analytics
+        ## Executive Power BI & Analytics Engineering Portfolio Project
+
+        Source-controlled decision support for claims performance, financial exposure, service, operations and risk-based human review.
 
         > **Portfolio demonstration using synthetic data only.** No customer, policyholder, claim, or employer-confidential information is used. All findings are synthetic portfolio findings, not workplace achievements.
 
