@@ -1,0 +1,8 @@
+# Keep GitHub language statistics aligned with the repository's primary analytical artifacts.
+*.tmdl linguist-detectable=true
+
+# Exclude supporting data-generation and QA utilities from the language summary.
+scripts/generate_synthetic_claims.py linguist-detectable=false
+scripts/build_clean_dataset.py linguist-detectable=false
+scripts/qa_project.py linguist-detectable=false
+scripts/validate_data.py linguist-detectable=false
