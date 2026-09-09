@@ -1,8 +1,6 @@
 # Keep GitHub language statistics aligned with the repository's primary analytical artifacts.
 *.tmdl linguist-detectable=true
 
-# Exclude supporting data-generation and QA utilities from the language summary.
-scripts/generate_synthetic_claims.py linguist-detectable=false
-scripts/build_clean_dataset.py linguist-detectable=false
-scripts/qa_project.py linguist-detectable=false
-scripts/validate_data.py linguist-detectable=false
+# Python under scripts/ supports generation, QA and reproducibility. Keep it in the repository,
+# but exclude it from the language summary so the pinned card reflects the Power BI model work.
+scripts/*.py linguist-detectable=false
